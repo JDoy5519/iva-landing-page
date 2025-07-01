@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mis-Sold IVA Claim Checker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="sticky-header">
+        <div class="sticky-container">
+            <div class="brand">JDH Reports</div>
+            <button class="sticky-cta" id="check-iva">Check My IVA</button>
+        </div>
+</header>
+
+
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-text">
+            <h1>Mis-Sold IVA?</h1>
+            <p>You could be owed compensation. Our free checker takes 60 seconds.</p>
+            <ul>
+                <li>100% confidential</li>
+                <li>No win, no fee</li>
+                <li>Expert IVA review</li>
+            </ul>
+            </div>
+            <div class="hero-image">
+            <img src="images/debt.jpg" alt="Concerned person reviewing finances" />
+            </div>
+        </div>
+    </section>
+
+  <main>
+    <section class="cta-strip">
+        <div class="cta-strip-inner">
+            <h2>Check If You've Been Mis-Sold</h2>
+            <p>It takes just 60 seconds — no obligation, no fee unless you win.</p>
+            <button id = 'start-check'>
+            Start My Free Check
+            </button>
+        </div>
+    </section>
+
+
+    <section id="form-section" class="form-section hidden">
+        <div class="form-inner">
+            <form id="iva-check-form">
+
+            <!-- Step 1 -->
+            <div class="form-step active" data-step="1">
+                <h2>Step 1: Your Contact Details</h2>
+                <label for="fullName">Full Name*</label>
+                <input type="text" id="fullName" name="fullName" required>
+
+                <label for="email">Email Address*</label>
+                <input type="email" id="email" name="email" required>
+
+                <button type="button" class="next-btn">Next</button>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="form-step" data-step="2">
+                <h2>Step 2: Your IVA Provider</h2>
+                <label for="iva-provider">IVA Provider*</label>
+                <select id="iva-provider" name="ivaProvider" required>
+                <option value="">Select a provider...</option>
+                <option value="CreditFix">CreditFix</option>
+                <option value="Jarvis">Jarvis Insolvency</option>
+                <option value="Vanguard">Vanguard</option>
+                <option value="Other">Other</option>
+                </select>
+
+                <button type="button" class="prev-btn">Back</button>
+                <button type="submit">Submit My Details</button>
+            </div>
+
+            </form>
+            </div>
+    </section>
+
+
+    <section class="misselling-info">
+        <div class="misselling-inner">
+            <h2>How IVA Companies May Have Mis-Sold You</h2>
+            <ul class="mis-selling-list">
+            <li>💡 Told it was a government-backed scheme</li>
+            <li>💰 Hidden fees of £3,000–£5,000 not explained</li>
+            <li>🚫 Not informed of all available debt solutions</li>
+            <li>⏳ Unexpected term extensions due to hidden clauses</li>
+            <li>📊 Income/expenditure figures manipulated</li>
+            <li>🧠 You were vulnerable and not protected</li>
+            </ul>
+        </div>
+    </section>
+
+
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 JDH Reports · Reg No. 12533469 · ICO Registered</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
