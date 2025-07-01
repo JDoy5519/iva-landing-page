@@ -254,6 +254,7 @@ button:hover {
 .form-inner {
   max-width: 600px;
   margin: 0 auto;
+  padding: 2rem 1rem;
 }
 
 .form-inner h2 {
@@ -261,6 +262,7 @@ button:hover {
   font-size: 1.75rem;
 }
 
+/* Form Layout */
 form {
   display: flex;
   flex-direction: column;
@@ -268,23 +270,31 @@ form {
 }
 
 form label {
+  display: block;
+  margin-top: 1rem;
   font-weight: 600;
 }
 
+/* Inputs & Selects */
 form input,
 form select {
+  width: 100%;
   padding: 0.75rem;
+  margin-top: 0.5rem;
   border: 1px solid #D1D5DB;
   border-radius: 6px;
   font-size: 1rem;
 }
 
+/* Buttons */
 form button {
+  margin-top: 2rem;
   background-color: #3B82F6;
   color: white;
   border: none;
-  padding: 1rem;
-  font-size: 1.1rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -292,6 +302,16 @@ form button {
 
 form button:hover {
   background-color: #2563EB;
+}
+
+/* Step-by-Step Transitions */
+.form-step {
+  display: none;
+  transition: all 0.3s ease;
+}
+
+.form-step.active {
+  display: block;
 }
 
 /* Hide by default */

@@ -66,12 +66,22 @@
                 <h2>Step 2: Your IVA Provider</h2>
                 <label for="iva-provider">IVA Provider*</label>
                 <select id="iva-provider" name="ivaProvider" required>
-                <option value="">Select a provider...</option>
-                <option value="CreditFix">CreditFix</option>
-                <option value="Jarvis">Jarvis Insolvency</option>
-                <option value="Vanguard">Vanguard</option>
-                <option value="Other">Other</option>
+                    <option value="">Select a provider...</option>
+                    <option value="ApertureDebtSolutions">Aperture Debt Solutions</option>
+                    <option value="CreditFix">CreditFix</option>
+                    <option value="DebtMovement">Debt Movement</option>
+                    <option value="Ebenegate">Ebenegate</option>
+                    <option value="HanoverInsolvency">Hanover Insolvency</option>
+                    <option value="JarvisInsolvency">Jarvis Insolvency</option>
+                    <option value="KingsgateInsolvency">Kingsgate Insolvency</option>
+                    <option value="VanguardInsolvency">Vanguard Insolvency</option>
+                    <option value="Other">Other</option>
                 </select>
+
+                <div id="other-provider-container" class="hidden">
+                    <label for="other-provider">Please enter your provider</label>
+                    <input type="text" id="other-provider" name="otherProvider" />
+                </div>
 
                 <button type="button" class="prev-btn">Back</button>
                 <button type="submit">Submit My Details</button>
