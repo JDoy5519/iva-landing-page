@@ -8,105 +8,612 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-<header class="sticky-header">
-        <div class="sticky-container">
-            <div class="brand">JDH Reports</div>
-            <button class="sticky-cta" id="check-iva">Check My IVA</button>
-        </div>
-</header>
+  <header class="sticky-header">
+    <div class="sticky-container">
+      <div class="brand">JDH Reports</div>
+      <button class="sticky-cta" id="check-iva">Check My IVA</button>
+    </div>
+  </header>
 
-
-    <section class="hero">
-        <div class="hero-container">
-            <div class="hero-text">
-            <h1>Mis-Sold IVA?</h1>
-            <p>You could be owed compensation. Our free checker takes 60 seconds.</p>
-            <ul>
-                <li>100% confidential</li>
-                <li>No win, no fee</li>
-                <li>Expert IVA review</li>
-            </ul>
-            </div>
-            <div class="hero-image">
-            <img src="images/debt.jpg" alt="Concerned person reviewing finances" />
-            </div>
-        </div>
-    </section>
+  <section class="hero">
+    <div class="hero-container">
+      <div class="hero-text">
+        <h1>Mis-Sold IVA?</h1>
+        <p>You could be owed compensation. Our free checker takes 60 seconds.</p>
+        <ul>
+          <li>100% confidential</li>
+          <li>No win, no fee</li>
+          <li>Expert IVA review</li>
+        </ul>
+      </div>
+      <div class="hero-image">
+        <img src="images/debt.jpg" alt="Concerned person reviewing finances" />
+      </div>
+    </div>
+  </section>
 
   <main>
     <section class="cta-strip">
-        <div class="cta-strip-inner">
-            <h2>Check If You've Been Mis-Sold</h2>
-            <p>It takes just 60 seconds — no obligation, no fee unless you win.</p>
-            <button id = 'start-check'>
-            Start My Free Check
-            </button>
-        </div>
+      <div class="cta-strip-inner">
+        <h2>Check If You've Been Mis-Sold</h2>
+        <p>It takes just 60 seconds — no obligation, no fee unless you win.</p>
+        <button id="start-check">Start My Free Check</button>
+      </div>
     </section>
-
 
     <section id="form-section" class="form-section hidden">
-        <div class="form-inner">
-            <form id="iva-check-form">
+      <div class="form-inner">
+        <!-- Full 10-step form starts here -->
+        <!-- We use the live canvas document: 'Iva Form Full' -->
+        <form id="iva-check-form">
+  <!-- Step 1 -->
+<div class="form-step active" data-step="0">
+  <div class="step-indicator">Step 1 of 10</div>
+  <h2>Your Contact Details</h2>
 
-            <!-- Step 1 -->
-            <div class="form-step active" data-step="1">
-                <h2>Step 1: Your Contact Details</h2>
-                <label for="fullName">Full Name*</label>
-                <input type="text" id="fullName" name="fullName" required>
+  <label for="fullName">Full Name*</label>
+  <input
+    type="text"
+    id="fullName"
+    name="fullName"
+    required
+    autocomplete="name"
+    aria-required="true"
+    aria-describedby="name-error"
+  >
+  <p id="fullName-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
 
-                <label for="email">Email Address*</label>
-                <input type="email" id="email" name="email" required>
+  <label for="email">Email Address*</label>
+  <input
+    type="email"
+    id="email"
+    name="email"
+    required
+    autocomplete="email"
+    inputmode="email"
+    aria-required="true"
+    aria-describedby="email-error"
+  >
+  <p id="email-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
 
-                <button type="button" class="next-btn">Next</button>
-            </div>
+  <div class="form-nav">
+    <button type="button" class="next-btn">Next</button>
+  </div>
+</div>
 
-            <!-- Step 2 -->
-            <div class="form-step" data-step="2">
-                <h2>Step 2: Your IVA Provider</h2>
-                <label for="iva-provider">IVA Provider*</label>
-                <select id="iva-provider" name="ivaProvider" required>
-                    <option value="">Select a provider...</option>
-                    <option value="ApertureDebtSolutions">Aperture Debt Solutions</option>
-                    <option value="CreditFix">CreditFix</option>
-                    <option value="DebtMovement">Debt Movement</option>
-                    <option value="Ebenegate">Ebenegate</option>
-                    <option value="HanoverInsolvency">Hanover Insolvency</option>
-                    <option value="JarvisInsolvency">Jarvis Insolvency</option>
-                    <option value="KingsgateInsolvency">Kingsgate Insolvency</option>
-                    <option value="VanguardInsolvency">Vanguard Insolvency</option>
-                    <option value="Other">Other</option>
-                </select>
 
-                <div id="other-provider-container" class="hidden">
-                    <label for="other-provider">Please enter your provider</label>
-                    <input type="text" id="other-provider" name="otherProvider" />
-                </div>
+<!-- Step 2 -->
+<div class="form-step" data-step="1">
+  <div class="step-indicator">Step 2 of 10</div>
+  <h2>Your IVA Provider</h2>
 
-                <button type="button" class="prev-btn">Back</button>
-                <button type="submit">Submit My Details</button>
-            </div>
+  <label for="iva-provider">IVA Provider*</label>
+  <select id="iva-provider" name="ivaProvider" required class="iva-provider-select">
+    <option value="">Select a provider...</option>
+    <option value="ApertureDebtSolutions">Aperture Debt Solutions</option>
+    <option value="CreditFix">CreditFix</option>
+    <option value="DebtMovement">Debt Movement</option>
+    <option value="Ebenegate">Ebenegate</option>
+    <option value="HanoverInsolvency">Hanover Insolvency</option>
+    <option value="JarvisInsolvency">Jarvis Insolvency</option>
+    <option value="KingsgateInsolvency">Kingsgate Insolvency</option>
+    <option value="VanguardInsolvency">Vanguard Insolvency</option>
+    <option value="Other">Other</option>
+  </select>
 
-            </form>
-            </div>
+  <p id="iva-provider-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
+
+  <div id="other-provider-container" class="hidden">
+    <label for="other-provider">Please enter your provider</label>
+    <input
+    type="text"
+    id="other-provider"
+    name="otherProvider"
+    placeholder="Enter your IVA provider"
+    class="input"
+  />
+    
+
+  <p id="other-provider-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
+  </div>
+
+  <div class="form-nav">
+    <button type="button" class="prev-btn">Back</button>
+    <button type="button" class="next-btn">Next</button>
+  </div>
+</div>
+
+<!-- Step 3 -->
+<div class="form-step" data-step="2">
+  <div class="step-indicator">Step 3 of 10</div>
+  <h2>Your IVA Details</h2>
+
+ <!-- IVA Status -->
+  <div class="form-group">
+    <label class="section-label">What is the current status of your IVA?*</label>
+    <p id="ivaStatus-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
+    <div class="radio-group">
+      <label class="radio-option">
+        <input type="radio" name="ivaStatus" value="Active" required />
+        <span class="checkmark"></span>
+        Active
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="ivaStatus" value="Completed" />
+        <span class="checkmark"></span>
+        Completed
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="ivaStatus" value="Failed" />
+        <span class="checkmark"></span>
+        Failed
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="ivaStatus" value="InArrears" />
+        <span class="checkmark"></span>
+        In Arrears
+      </label>
+    </div>
+  </div>
+
+  <!-- Monthly Payment -->
+  <div class="form-group">
+    <label for="monthlyPayment">Monthly IVA Payment*</label>
+    <input type="number" id="monthlyPayment" name="monthlyPayment" placeholder="e.g. 120" min="1" required />
+    <p id="monthlyPayment-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
+  </div>
+
+  <!-- Debt Level -->
+  <div class="form-group">
+    <label class="section-label">What is your approximate debt level?*</label>
+    <p id="debtLevel-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
+    <div class="radio-group">
+      <label class="radio-option">
+        <input type="radio" name="debtLevel" value="5000-10000" required />
+        <span class="checkmark"></span>
+        £5,000 – £10,000
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="debtLevel" value="10000-20000" />
+        <span class="checkmark"></span>
+        £10,000 – £20,000
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="debtLevel" value="20000plus" />
+        <span class="checkmark"></span>
+        £20,000+
+      </label>
+    </div>
+  </div>
+
+  <!-- IVA Type -->
+  <div class="form-group">
+    <label class="section-label">Is your IVA a single or joint arrangement?*</label>
+    <p id="ivaType-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
+    <div class="radio-group">
+      <label class="radio-option">
+        <input type="radio" name="ivaType" value="Single" required />
+        <span class="checkmark"></span>
+        Single
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="ivaType" value="Joint" />
+        <span class="checkmark"></span>
+        Joint
+      </label>
+    </div>
+  </div>
+
+  <!-- Setup By -->
+  <div class="form-group">
+    <label class="section-label">Who set up your IVA?*</label>
+    <p id="setupBy-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
+    <div class="radio-group">
+      <label class="radio-option">
+        <input type="radio" name="setupBy" value="Self" required />
+        <span class="checkmark"></span>
+        Myself
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="setupBy" value="Partner" />
+        <span class="checkmark"></span>
+        My Partner
+      </label>
+    </div>
+  </div>
+
+  <div class="form-nav">
+    <button type="button" class="prev-btn">Back</button>
+    <button type="button" class="next-btn">Next</button>
+  </div>
+</div>
+
+  <!-- Step 4 -->
+<div class="form-step" data-step="3">
+  <div class="step-indicator">Step 4 of 10</div>
+  <h2>Address & Residency</h2>
+
+  <label for="currentAddress">Current Street Address*</label>
+  <input type="text" id="currentAddress" name="currentAddress" required />
+  <p id="currentAddress-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
+
+  <label for="city">City*</label>
+  <input type="text" id="city" name="city" required />
+  <p id="city-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
+
+  <label for="postcode">Postcode*</label>
+  <input type="text" id="postcode" name="postcode" required />
+  <p id="postcode-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
+
+  <div class="form-group">
+    <label class="section-label">Did you live at this property when you entered your IVA?*</label>
+    <p id="livedAtAddress-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
+    <div class="radio-group">
+      <label class="radio-option">
+        <input type="radio" name="livedAtAddress" value="Yes" required />
+        <span class="checkmark"></span>
+        Yes
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="livedAtAddress" value="No" />
+        <span class="checkmark"></span>
+        No
+      </label>
+    </div>
+  </div>
+
+  <div id="previous-address" class="hidden">
+    <label for="previousAddress">Previous Street Address</label>
+    <input type="text" id="previousAddress" name="previousAddress" />
+
+    <label for="previousCity">City</label>
+    <input type="text" id="previousCity" name="previousCity" />
+
+    <label for="previousPostcode">Postcode</label>
+    <input type="text" id="previousPostcode" name="previousPostcode" />
+  </div>
+
+  <label for="residentialStatus">Residential Status at IVA Start*</label>
+  <select id="residentialStatus" name="residentialStatus" required>
+    <option value="">Select one...</option>
+    <option value="Homeowner">Homeowner</option>
+    <option value="Tenant">Tenant</option>
+    <option value="LivingWithParents">Living with Parents</option>
+    <option value="Other">Other</option>
+  </select>
+  <p id="residentialStatus-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
+
+  <div class="form-group">
+    <label class="section-label">Were you in mortgage arrears at the time or since?*</label>
+    <p id="mortgageArrears-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
+    <div class="radio-group">
+      <label class="radio-option">
+        <input type="radio" name="mortgageArrears" value="Yes" required />
+        <span class="checkmark"></span>
+        Yes
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="mortgageArrears" value="No" />
+        <span class="checkmark"></span>
+        No
+      </label>
+    </div>
+  </div>
+
+  <div class="form-nav">
+    <button type="button" class="prev-btn">Back</button>
+    <button type="button" class="next-btn">Next</button>
+  </div>
+</div>
+
+  <!-- Step 5 -->
+<div class="form-step" data-step="4">
+  <div class="step-indicator">Step 5 of 10</div>
+  <h2>Employment & Income</h2>
+
+  <div class="form-group">
+    <label class="section-label">Employment Status at the Time*</label>
+    <p id="employmentStatus-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
+    <div class="radio-group">
+      <label class="radio-option">
+        <input type="radio" name="employmentStatus" value="Employed" required />
+        <span class="checkmark"></span>
+        Employed
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="employmentStatus" value="PartTime" />
+        <span class="checkmark"></span>
+        Part-Time
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="employmentStatus" value="SelfEmployed" />
+        <span class="checkmark"></span>
+        Self-Employed
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="employmentStatus" value="Unemployed" />
+        <span class="checkmark"></span>
+        Unemployed
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="employmentStatus" value="Retired" />
+        <span class="checkmark"></span>
+        Retired
+      </label>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="jobTitle" class="section-label">Job Role / Title*</label>
+    <input type="text" id="jobTitle" name="jobTitle" required />
+    <p id="jobTitle-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
+  </div>
+
+  <div class="form-group">
+    <label for="salary" class="section-label">Estimated Annual Salary (£)*</label>
+    <input type="text" id="salary" name="salary" required />
+    <p id="salary-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
+  </div>
+
+  <div class="form-group">
+    <label class="section-label">Was income based on commissions/overtime?*</label>
+    <p id="commissionBased-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
+    <div class="radio-group">
+      <label class="radio-option">
+        <input type="radio" name="commissionBased" value="Yes" required />
+        <span class="checkmark"></span>
+        Yes
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="commissionBased" value="No" />
+        <span class="checkmark"></span>
+        No
+      </label>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="section-label">Did income change significantly during IVA?*</label>
+    <p id="incomeChanged-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
+    <div class="radio-group">
+      <label class="radio-option">
+        <input type="radio" name="incomeChanged" value="Yes" required />
+        <span class="checkmark"></span>
+        Yes
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="incomeChanged" value="No" />
+        <span class="checkmark"></span>
+        No
+      </label>
+    </div>
+  </div>
+
+  <div class="form-nav">
+    <button type="button" class="prev-btn">Back</button>
+    <button type="button" class="next-btn">Next</button>
+  </div>
+</div>
+
+<!-- Step 6 -->
+<div class="form-step" data-step="5">
+  <div class="step-indicator">Step 6 of 10</div>
+  <h2>Vulnerability</h2>
+
+  <div class="form-group">
+    <label class="section-label">Did you have dependants at the time?*</label>
+    <p id="hadDependants-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
+    <div class="radio-group">
+      <label class="radio-option">
+        <input type="radio" name="hadDependants" value="Yes" required />
+        <span class="checkmark"></span>
+        Yes
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="hadDependants" value="No" />
+        <span class="checkmark"></span>
+        No
+      </label>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="section-label">Did you feel vulnerable when the IVA was sold to you?*</label>
+    <p id="feltVulnerable-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
+    <div class="radio-group">
+      <label class="radio-option">
+        <input type="radio" name="feltVulnerable" value="Yes" required />
+        <span class="checkmark"></span>
+        Yes
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="feltVulnerable" value="No" />
+        <span class="checkmark"></span>
+        No
+      </label>
+    </div>
+  </div>
+
+  <div id="vulnerability-explanation" class="hidden">
+    <label for="vulnerabilityReason">If yes, please explain:</label>
+    <textarea id="vulnerabilityReason" name="vulnerabilityReason" rows="5"></textarea>
+    <div class="char-counter"><span id="charCount">0</span> / 1000 characters</div>
+  </div>
+
+  <div class="form-nav">
+    <button type="button" class="prev-btn">Back</button>
+    <button type="button" class="next-btn">Next</button>
+  </div>
+</div>
+
+  <!-- Step 7 -->
+  <div class="form-step" data-step="6">
+    <div class="step-indicator">Step 7 of 10</div>
+    <h2>Sales & Marketing</h2>
+
+    <label for="marketingSource">How did you first hear of the IVA provider?*</label>
+    <select id="marketingSource" name="marketingSource" required>
+      <option value="">Select one...</option>
+      <option value="Google">Google / Search Engine</option>
+      <option value="SocialMedia">Social Media</option>
+      <option value="ColdCall">Cold Call</option>
+      <option value="Referral">Referral</option>
+      <option value="Other">Other</option>
+    </select>
+    <p id="marketingSource-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
+
+    <fieldset>
+      <legend>Were you in a DMP before your IVA?*</legend>
+      <p id="wasInDMP-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
+      <label><input type="radio" name="wasInDMP" value="Yes" required> Yes</label>
+      <label><input type="radio" name="wasInDMP" value="No"> No</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Did the company explain other debt solutions?*</legend>
+      <p id="salesApproach-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
+      <label><input type="radio" name="salesApproach" value="ExplainedOptions" required> Explained Options</label>
+      <label><input type="radio" name="salesApproach" value="PushedIVA"> Pushed IVA</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Did you sign documents electronically?*</legend>
+      <p id="signedElectronically-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
+      <label><input type="radio" name="signedElectronically" value="Yes" required> Yes</label>
+      <label><input type="radio" name="signedElectronically" value="No"> No</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Did you have vehicle finance before IVA?*</legend>
+      <p id="vehicleFinance-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
+      <label><input type="radio" name="vehicleFinance" value="Yes" required> Yes</label>
+      <label><input type="radio" name="vehicleFinance" value="No"> No</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Were you advised to change bank accounts?*</legend>
+      <p id="changeBank-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
+      <label><input type="radio" name="changeBank" value="Yes" required> Yes</label>
+      <label><input type="radio" name="changeBank" value="No"> No</label>
+    </fieldset>
+
+    <label for="previousBank">Previous Bank*</label>
+    <input type="text" id="previousBank" name="previousBank" required />
+    <p id="previousBank-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
+
+    <div class="form-nav">
+      <button type="button" class="prev-btn">Back</button>
+      <button type="button" class="next-btn">Next</button>
+    </div>
+  </div>
+
+  <!-- Step 8 -->
+<div class="form-step" data-step="7">
+  <div class="step-indicator">Step 8 of 10</div>
+  <h2>Affordability & Experience</h2>
+
+  <fieldset>
+    <legend>Was the payment affordable when IVA began?*</legend>
+    <p id="paymentAffordable-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
+    <label><input type="radio" name="paymentAffordable" value="Yes" required> Yes</label>
+    <label><input type="radio" name="paymentAffordable" value="No"> No</label>
+  </fieldset>
+
+  <fieldset>
+    <legend>Did you struggle to maintain payments?*</legend>
+    <p id="struggledPayments-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
+    <label><input type="radio" name="struggledPayments" value="Yes" required> Yes</label>
+    <label><input type="radio" name="struggledPayments" value="No"> No</label>
+  </fieldset>
+
+  <fieldset>
+    <legend>Were you told to cut spending?*</legend>
+    <p id="reduceSpending-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
+    <label><input type="radio" name="reduceSpending" value="Yes" required> Yes</label>
+    <label><input type="radio" name="reduceSpending" value="No"> No</label>
+  </fieldset>
+
+  <fieldset>
+    <legend>Did you think payments would stay affordable?*</legend>
+    <p id="believedAffordable-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
+    <label><input type="radio" name="believedAffordable" value="Yes" required> Yes</label>
+    <label><input type="radio" name="believedAffordable" value="No"> No</label>
+  </fieldset>
+
+  <fieldset>
+    <legend>Were consequences of failure explained?*</legend>
+    <p id="warnedOfRisks-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
+    <label><input type="radio" name="warnedOfRisks" value="Yes" required> Yes</label>
+    <label><input type="radio" name="warnedOfRisks" value="No"> No</label>
+  </fieldset>
+
+  <div class="form-nav">
+    <button type="button" class="prev-btn">Back</button>
+    <button type="button" class="next-btn">Next</button>
+  </div>
+</div>
+
+  <!-- Step 9 -->
+<div class="form-step" data-step="8">
+  <div class="step-indicator">Step 9 of 10</div>
+  <h2>Your Testimony</h2>
+  <p>Explain briefly why you believe your IVA may have been mis-sold:</p>
+  <textarea id="userTestimony" name="userTestimony" rows="6" maxlength="2000" required></textarea>
+  <p id="userTestimony-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
+  <div class="char-counter"><span id="testimonyCount">0</span> / 2000 characters</div>
+  <div class="form-nav">
+    <button type="button" class="prev-btn">Back</button>
+    <button type="button" class="next-btn">Next</button>
+  </div>
+</div>
+
+  <!-- Step 10 -->
+<div class="form-step" data-step="9">
+  <div class="step-indicator">Step 10 of 10</div>
+  <h2>Authority to Act</h2>
+  <p>By submitting this form, you agree:</p>
+  <ul class="consent-points">
+    <li>Your case may be reviewed for mis-selling</li>
+    <li>You may be contacted about your responses</li>
+    <li>We may forward your case to legal professionals</li>
+  </ul>
+  <fieldset>
+    <legend>Consent to Assessment*</legend>
+    <p id="consentGiven-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
+    <label><input type="radio" name="consentGiven" value="Yes" required> Yes, I give my consent</label>
+    <label><input type="radio" name="consentGiven" value="No"> No</label>
+  </fieldset>
+  <div class="form-nav">
+    <button type="button" class="prev-btn">Back</button>
+    <button type="submit" class="submit-btn">Submit My Claim</button>
+  </div>
+</div>
+  <!-- These steps are already in your saved document and working codebase -->
+</form>
+      </div>
     </section>
 
+    <div id="thank-you" class="form-step hidden">
+      <div class="step-indicator">✓ Submission Complete</div>
+      <h2>Thank You for Submitting Your IVA Claim</h2>
+      <p>Your responses have been received and our team will begin assessing your case for potential mis-selling.</p>
+      <p>You may be contacted shortly to discuss your responses or next steps.</p>
+      <p class="muted">If you have any questions, please contact us at <a href="mailto:claims@yourcompany.com">claims@yourcompany.com</a>.</p>
+    </div>
 
     <section class="misselling-info">
-        <div class="misselling-inner">
-            <h2>How IVA Companies May Have Mis-Sold You</h2>
-            <ul class="mis-selling-list">
-            <li>💡 Told it was a government-backed scheme</li>
-            <li>💰 Hidden fees of £3,000–£5,000 not explained</li>
-            <li>🚫 Not informed of all available debt solutions</li>
-            <li>⏳ Unexpected term extensions due to hidden clauses</li>
-            <li>📊 Income/expenditure figures manipulated</li>
-            <li>🧠 You were vulnerable and not protected</li>
-            </ul>
-        </div>
+      <div class="misselling-inner">
+        <h2>How IVA Companies May Have Mis-Sold You Their Product:</h2>
+        <ul class="mis-selling-list">
+          <li>💡 Told you it was a government-backed scheme</li>
+          <li>💰 Hidden fees of £3,000–£5,000 not explained</li>
+          <li>🚫 Not informed of all available debt solutions</li>
+          <li>⏳ Unexpected term extensions due to hidden clauses</li>
+          <li>📊 Income/expenditure figures manipulated</li>
+          <li>🧠 You were vulnerable and not protected</li>
+        </ul>
+      </div>
     </section>
-
-
   </main>
 
   <footer class="footer">
