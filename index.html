@@ -447,11 +447,12 @@
 </div>
 
   <!-- Step 7 -->
-  <div class="form-step" data-step="6">
-    <div class="step-indicator">Step 7 of 10</div>
-    <h2>Sales & Marketing</h2>
+<div class="form-step" data-step="6">
+  <div class="step-indicator">Step 7 of 10</div>
+  <h2>Sales & Marketing</h2>
 
-    <label for="marketingSource">How did you first hear of the IVA provider?*</label>
+  <div class="form-group">
+    <label for="marketingSource" class="section-label">How did you first hear of the IVA provider?*</label>
     <select id="marketingSource" name="marketingSource" required>
       <option value="">Select one...</option>
       <option value="Google">Google / Search Engine</option>
@@ -460,92 +461,195 @@
       <option value="Referral">Referral</option>
       <option value="Other">Other</option>
     </select>
-    <p id="marketingSource-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
+    <p id="marketingSource-error" class="error-message"></p>
+  </div>
 
-    <fieldset>
-      <legend>Were you in a DMP before your IVA?*</legend>
-      <p id="wasInDMP-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
-      <label><input type="radio" name="wasInDMP" value="Yes" required> Yes</label>
-      <label><input type="radio" name="wasInDMP" value="No"> No</label>
-    </fieldset>
-
-    <fieldset>
-      <legend>Did the company explain other debt solutions?*</legend>
-      <p id="salesApproach-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
-      <label><input type="radio" name="salesApproach" value="ExplainedOptions" required> Explained Options</label>
-      <label><input type="radio" name="salesApproach" value="PushedIVA"> Pushed IVA</label>
-    </fieldset>
-
-    <fieldset>
-      <legend>Did you sign documents electronically?*</legend>
-      <p id="signedElectronically-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
-      <label><input type="radio" name="signedElectronically" value="Yes" required> Yes</label>
-      <label><input type="radio" name="signedElectronically" value="No"> No</label>
-    </fieldset>
-
-    <fieldset>
-      <legend>Did you have vehicle finance before IVA?*</legend>
-      <p id="vehicleFinance-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
-      <label><input type="radio" name="vehicleFinance" value="Yes" required> Yes</label>
-      <label><input type="radio" name="vehicleFinance" value="No"> No</label>
-    </fieldset>
-
-    <fieldset>
-      <legend>Were you advised to change bank accounts?*</legend>
-      <p id="changeBank-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
-      <label><input type="radio" name="changeBank" value="Yes" required> Yes</label>
-      <label><input type="radio" name="changeBank" value="No"> No</label>
-    </fieldset>
-
-    <label for="previousBank">Previous Bank*</label>
-    <input type="text" id="previousBank" name="previousBank" required />
-    <p id="previousBank-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
-
-    <div class="form-nav">
-      <button type="button" class="prev-btn">Back</button>
-      <button type="button" class="next-btn">Next</button>
+  <div class="form-group">
+    <label class="section-label">Were you in a DMP before your IVA?*</label>
+    <p id="wasInDMP-error" class="error-message"></p>
+    <div class="radio-group">
+      <label class="radio-option">
+        <input type="radio" name="wasInDMP" value="Yes" required />
+        <span class="checkmark"></span>
+        Yes
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="wasInDMP" value="No" />
+        <span class="checkmark"></span>
+        No
+      </label>
     </div>
   </div>
+
+  <div class="form-group">
+    <label class="section-label">Did the company explain other debt solutions?*</label>
+    <p id="salesApproach-error" class="error-message"></p>
+    <div class="radio-group">
+      <label class="radio-option">
+        <input type="radio" name="salesApproach" value="ExplainedOptions" required />
+        <span class="checkmark"></span>
+        Explained Options
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="salesApproach" value="PushedIVA" />
+        <span class="checkmark"></span>
+        Pushed IVA
+      </label>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="section-label">Did you sign documents electronically?*</label>
+    <p id="signedElectronically-error" class="error-message"></p>
+    <div class="radio-group">
+      <label class="radio-option">
+        <input type="radio" name="signedElectronically" value="Yes" required />
+        <span class="checkmark"></span>
+        Yes
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="signedElectronically" value="No" />
+        <span class="checkmark"></span>
+        No
+      </label>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="section-label">Did you have vehicle finance before IVA?*</label>
+    <p id="vehicleFinance-error" class="error-message"></p>
+    <div class="radio-group">
+      <label class="radio-option">
+        <input type="radio" name="vehicleFinance" value="Yes" required />
+        <span class="checkmark"></span>
+        Yes
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="vehicleFinance" value="No" />
+        <span class="checkmark"></span>
+        No
+      </label>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="section-label">Were you advised to change bank accounts?*</label>
+    <p id="changeBank-error" class="error-message"></p>
+    <div class="radio-group">
+      <label class="radio-option">
+        <input type="radio" name="changeBank" value="Yes" required />
+        <span class="checkmark"></span>
+        Yes
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="changeBank" value="No" />
+        <span class="checkmark"></span>
+        No
+      </label>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="previousBank" class="section-label">Previous Bank*</label>
+    <input type="text" id="previousBank" name="previousBank" required />
+    <p id="previousBank-error" class="error-message"></p>
+  </div>
+
+  <div class="form-nav">
+    <button type="button" class="prev-btn">Back</button>
+    <button type="button" class="next-btn">Next</button>
+  </div>
+</div>
 
   <!-- Step 8 -->
 <div class="form-step" data-step="7">
   <div class="step-indicator">Step 8 of 10</div>
   <h2>Affordability & Experience</h2>
 
-  <fieldset>
-    <legend>Was the payment affordable when IVA began?*</legend>
+  <div class="form-group">
+    <label class="section-label">Was the payment affordable when IVA began?*</label>
     <p id="paymentAffordable-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
-    <label><input type="radio" name="paymentAffordable" value="Yes" required> Yes</label>
-    <label><input type="radio" name="paymentAffordable" value="No"> No</label>
-  </fieldset>
+    <div class="radio-group">
+      <label class="radio-option">
+        <input type="radio" name="paymentAffordable" value="Yes" required />
+        <span class="checkmark"></span>
+        Yes
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="paymentAffordable" value="No" />
+        <span class="checkmark"></span>
+        No
+      </label>
+    </div>
+  </div>
 
-  <fieldset>
-    <legend>Did you struggle to maintain payments?*</legend>
+  <div class="form-group">
+    <label class="section-label">Did you struggle to maintain payments?*</label>
     <p id="struggledPayments-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
-    <label><input type="radio" name="struggledPayments" value="Yes" required> Yes</label>
-    <label><input type="radio" name="struggledPayments" value="No"> No</label>
-  </fieldset>
+    <div class="radio-group">
+      <label class="radio-option">
+        <input type="radio" name="struggledPayments" value="Yes" required />
+        <span class="checkmark"></span>
+        Yes
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="struggledPayments" value="No" />
+        <span class="checkmark"></span>
+        No
+      </label>
+    </div>
+  </div>
 
-  <fieldset>
-    <legend>Were you told to cut spending?*</legend>
+  <div class="form-group">
+    <label class="section-label">Were you told to cut spending?*</label>
     <p id="reduceSpending-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
-    <label><input type="radio" name="reduceSpending" value="Yes" required> Yes</label>
-    <label><input type="radio" name="reduceSpending" value="No"> No</label>
-  </fieldset>
+    <div class="radio-group">
+      <label class="radio-option">
+        <input type="radio" name="reduceSpending" value="Yes" required />
+        <span class="checkmark"></span>
+        Yes
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="reduceSpending" value="No" />
+        <span class="checkmark"></span>
+        No
+      </label>
+    </div>
+  </div>
 
-  <fieldset>
-    <legend>Did you think payments would stay affordable?*</legend>
+  <div class="form-group">
+    <label class="section-label">Did you think payments would stay affordable?*</label>
     <p id="believedAffordable-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
-    <label><input type="radio" name="believedAffordable" value="Yes" required> Yes</label>
-    <label><input type="radio" name="believedAffordable" value="No"> No</label>
-  </fieldset>
+    <div class="radio-group">
+      <label class="radio-option">
+        <input type="radio" name="believedAffordable" value="Yes" required />
+        <span class="checkmark"></span>
+        Yes
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="believedAffordable" value="No" />
+        <span class="checkmark"></span>
+        No
+      </label>
+    </div>
+  </div>
 
-  <fieldset>
-    <legend>Were consequences of failure explained?*</legend>
+  <div class="form-group">
+    <label class="section-label">Were consequences of failure explained?*</label>
     <p id="warnedOfRisks-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
-    <label><input type="radio" name="warnedOfRisks" value="Yes" required> Yes</label>
-    <label><input type="radio" name="warnedOfRisks" value="No"> No</label>
-  </fieldset>
+    <div class="radio-group">
+      <label class="radio-option">
+        <input type="radio" name="warnedOfRisks" value="Yes" required />
+        <span class="checkmark"></span>
+        Yes
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="warnedOfRisks" value="No" />
+        <span class="checkmark"></span>
+        No
+      </label>
+    </div>
+  </div>
 
   <div class="form-nav">
     <button type="button" class="prev-btn">Back</button>
@@ -577,12 +681,24 @@
     <li>You may be contacted about your responses</li>
     <li>We may forward your case to legal professionals</li>
   </ul>
-  <fieldset>
-    <legend>Consent to Assessment*</legend>
+
+  <div class="form-group">
+    <label class="section-label">Consent to Assessment*</label>
     <p id="consentGiven-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
-    <label><input type="radio" name="consentGiven" value="Yes" required> Yes, I give my consent</label>
-    <label><input type="radio" name="consentGiven" value="No"> No</label>
-  </fieldset>
+    <div class="radio-group">
+      <label class="radio-option">
+        <input type="radio" name="consentGiven" value="Yes" required />
+        <span class="checkmark"></span>
+        Yes, I give my consent
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="consentGiven" value="No" />
+        <span class="checkmark"></span>
+        No, I do not give my consent
+      </label>
+    </div>
+  </div>
+
   <div class="form-nav">
     <button type="button" class="prev-btn">Back</button>
     <button type="submit" class="submit-btn">Submit My Claim</button>
