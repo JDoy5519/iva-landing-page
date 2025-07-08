@@ -2,28 +2,16 @@ let currentStep = 0;
 console.log('🔍 Initial currentStep:', currentStep);
 let steps;
 
-function goToStep(index) {
-  if (!steps || index < 0 || index >= steps.length) {
-    console.warn(`goToStep aborted — invalid index: ${index}`);
-    return;
-  }
 
-  console.log(`🔁 Transitioning from step ${currentStep} → ${index}`);
-  console.log(`Current step element:`, steps[currentStep]);
-  console.log(`Next step element:`, steps[index]);
 
-  if (!steps[currentStep]) {
-    console.error(`⚠️ No element found for currentStep index: ${currentStep}`);
-    return;
-  }
 
-  steps[currentStep].classList.remove('active');
-  currentStep = index;
-  steps[currentStep].classList.add('active');
-}
+
 
 
 document.addEventListener('DOMContentLoaded', () => {
+  let currentStep = 0;
+  console.log('🔍 Initial currentStep:', currentStep);
+  let steps;
   steps = document.querySelectorAll('.form-step');
   console.log('🧩 Steps found:', steps.length, steps);
   const nextBtns = document.querySelectorAll('.next-btn');
@@ -31,8 +19,165 @@ document.addEventListener('DOMContentLoaded', () => {
   const providerSelect = document.getElementById('iva-provider');
   const otherProviderInput = document.getElementById('other-provider');
   const formSection = document.getElementById('form-section');
+  const testimonyInput = document.getElementById('userTestimony');
+  const testimonyCount = document.getElementById('testimonyCount');
+  const form = document.getElementById('iva-check-form');
+  const thankYouMessage = document.getElementById('thank-you');
+  const livedAtAddressRadios = document.querySelectorAll('input[name="livedAtAddress"]');
+const previousAddressContainer = document.getElementById('previous-address');
+loadFormData();
 
-  document.getElementById('start-check').addEventListener('click', () => {
+  document.getElementById('iva-check-form').addEventListener('input', () => {
+    saveFormData();
+  });
+
+  document.getElementById('resume-check')?.addEventListener('click', () => {
+  const formSection = document.getElementById('form-section');
+  formSection.classList.remove('hidden');
+  formSection.scrollIntoView({ behavior: 'smooth' });
+});
+
+
+
+function goToStep(index) {
+  if (!steps || index < 0 || index >= steps.length) return;
+
+  steps[currentStep].classList.remove('active');
+  currentStep = index;
+  steps[currentStep].classList.add('active');
+
+  const progressBar = document.getElementById('progress-bar');
+  const progress = ((currentStep + 1) / steps.length) * 100;
+  progressBar.style.width = `${progress}%`;
+  document.getElementById('progress-label').textContent = `Step ${currentStep + 1} of ${steps.length}`;
+
+
+  saveFormData(); // Save step when navigating
+}
+
+//local storage
+function saveFormData() {
+  const formData = new FormData(document.getElementById('iva-check-form'));
+  const obj = {};
+  formData.forEach((value, key) => {
+    obj[key] = value;
+  });
+
+  const payload = {
+    formData: obj,
+    currentStep: currentStep
+  };
+
+  localStorage.setItem('ivaFormState', JSON.stringify(payload));
+}
+
+
+function loadFormData() {
+  const saved = localStorage.getItem('ivaFormState');
+  if (!saved) return;
+
+  const data = JSON.parse(saved);
+  if (data.formData) {
+    Object.entries(data.formData).forEach(([key, value]) => {
+      const field = document.querySelector(`[name="${key}"]`);
+      if (!field) return;
+
+      if (field.type === 'radio' || field.type === 'checkbox') {
+        const match = document.querySelector(`[name="${key}"][value="${value}"]`);
+        if (match) match.checked = true;
+      } else {
+        field.value = value;
+      }
+    });
+
+    if (typeof data.currentStep === 'number' && steps[data.currentStep]) {
+  // Reveal the form section if it was hidden
+  formSection.classList.remove('hidden');
+
+  // Scroll to the form
+  formSection.scrollIntoView({ behavior: 'smooth' });
+
+  // Jump to the saved step
+  goToStep(data.currentStep);
+}
+
+  }
+
+  if (typeof data.currentStep === 'number' && steps[data.currentStep]) {
+    goToStep(data.currentStep);
+  }
+}
+
+
+
+//previous address logic
+livedAtAddressRadios.forEach(radio => {
+  radio.addEventListener('change', () => {
+    if (radio.value === 'No' && radio.checked) {
+      previousAddressContainer.classList.remove('hidden');
+    } else if (radio.value === 'Yes' && radio.checked) {
+      previousAddressContainer.classList.add('hidden');
+    }
+  });
+});
+
+
+form.addEventListener('submit', async function (e) {
+  e.preventDefault(); // Prevent default submission
+
+  const formData = new FormData(form);
+
+  try {
+    const response = await fetch(form.action, {
+      method: form.method,
+      body: formData,
+    });
+
+    if (response.ok) {
+      // Reset saved data
+      localStorage.removeItem('ivaFormData');
+      form.reset();
+
+      // Reset form step view
+      document.querySelectorAll('.form-step').forEach(step => step.classList.remove('active'));
+      document.querySelector('[data-step="0"]').classList.add('active');
+
+      // Reset progress bar and label
+      document.getElementById('progress-label').textContent = 'Step 1 of 10';
+      document.getElementById('progress-bar').style.width = '10%';
+
+      // Show thank-you modal
+      const thankYouModal = document.getElementById('thank-you');
+      thankYouModal.classList.remove('hidden');
+      thankYouModal.classList.add('fade-in');
+    } else {
+      alert('Oops! Something went wrong submitting your claim. Please try again.');
+    }
+  } catch (err) {
+    alert('Error submitting form. Please check your connection.');
+    console.error(err);
+  }
+});
+
+
+// Close thank-you modal
+const closeThankYouBtn = document.getElementById('close-thank-you');
+if (closeThankYouBtn) {
+  closeThankYouBtn.addEventListener('click', function () {
+    document.getElementById('thank-you').classList.add('hidden');
+  });
+}
+
+
+//character counter for the testimony
+
+if (testimonyInput && testimonyCount) {
+  testimonyInput.addEventListener('input', () => {
+    testimonyCount.textContent = testimonyInput.value.length;
+  });
+}
+
+document.getElementById('start-check').addEventListener('click', () => {
     formSection.classList.remove('hidden');
     formSection.scrollIntoView({ behavior: 'smooth' });
   });
@@ -202,55 +347,68 @@ document.addEventListener('DOMContentLoaded', () => {
 }
 
   function validateStep5() {
-    let valid = true;
+  let valid = true;
 
-    const textFields = [
-      { id: 'jobTitle', message: 'Please enter your job title' },
-      { id: 'salary', message: 'Please enter your estimated salary' }
-    ];
+  const textFields = [
+    { id: 'jobTitle', message: 'Please enter your job title' },
+    { id: 'salary', message: 'Please enter your estimated salary' }
+  ];
 
-    textFields.forEach(({ id, message }) => {
-      const input = document.getElementById(id);
-      if (!input.value.trim()) {
-        showError(input, message);
-        valid = false;
-      } else {
-        clearError(input);
-      }
-    });
-
-    const salaryInput = document.getElementById('salary');
-    if (salaryInput.value && isNaN(Number(salaryInput.value))) {
-      showError(salaryInput, 'Salary must be a valid number');
+  textFields.forEach(({ id, message }) => {
+    const input = document.getElementById(id);
+    if (!input.value.trim()) {
+      showError(input, message);
       valid = false;
+    } else {
+      clearError(input);
     }
+  });
 
-    const radioGroups = {
-      employmentStatus: 'Please select your employment status',
-      commissionBased: 'Please indicate if your income was commission based',
-      incomeChanged: 'Please indicate if your income changed during the IVA'
-    };
-
-    Object.entries(radioGroups).forEach(([name, message]) => {
-      const input = document.querySelector(`input[name="${name}"]`);
-      const selected = document.querySelector(`input[name="${name}"]:checked`);
-      const error = document.getElementById(`${name}-error`);
-      if (!selected) {
-        if (error) {
-          error.textContent = message;
-          error.style.display = 'block';
-        } else if (input) {
-          showError(input, message);
-        }
-        valid = false;
-      } else if (error) {
-        error.textContent = '';
-        error.style.display = 'none';
-      }
-    });
-
-    return valid;
+  const salaryInput = document.getElementById('salary');
+  if (salaryInput.value && isNaN(Number(salaryInput.value))) {
+    showError(salaryInput, 'Salary must be a valid number');
+    valid = false;
   }
+
+  // ✅ Updated for <select> dropdown for employment status
+  const employmentSelect = document.getElementById('employmentStatus');
+  const employmentError = document.getElementById('employmentStatus-error');
+  if (!employmentSelect.value) {
+    employmentError.textContent = 'Please select your employment status';
+    employmentError.style.display = 'block';
+    valid = false;
+  } else {
+    employmentError.textContent = '';
+    employmentError.style.display = 'none';
+  }
+
+  // ✅ Still validating radio groups
+  const radioGroups = {
+    commissionBased: 'Please indicate if your income was commission based',
+    incomeChanged: 'Please indicate if your income changed during the IVA'
+  };
+
+  Object.entries(radioGroups).forEach(([name, message]) => {
+    const input = document.querySelector(`input[name="${name}"]`);
+    const selected = document.querySelector(`input[name="${name}"]:checked`);
+    const error = document.getElementById(`${name}-error`);
+    if (!selected) {
+      if (error) {
+        error.textContent = message;
+        error.style.display = 'block';
+      } else if (input) {
+        showError(input, message);
+      }
+      valid = false;
+    } else if (error) {
+      error.textContent = '';
+      error.style.display = 'none';
+    }
+  });
+
+  return valid;
+}
+
 
   function validateStep6() {
   let valid = true;
@@ -433,8 +591,15 @@ function validateStep10() {
     }
   });
 
+  document.getElementById('check-iva')?.addEventListener('click', () => {
+  formSection.classList.remove('hidden');
+  formSection.scrollIntoView({ behavior: 'smooth' });
 });
 
+
+});
+
+lucide.createIcons();
 
 
 
