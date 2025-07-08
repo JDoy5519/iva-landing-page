@@ -509,22 +509,6 @@ fieldset label {
   text-align: right;
 }
 
-.form-group {
-    background: #f9fafb;
-    padding: 1.5rem;
-    border-radius: 12px;
-    margin-bottom: 2rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-  }
-
-  .section-label {
-    font-weight: 600;
-    display: block;
-    margin-bottom: 0.5rem;
-    font-size: 1.05rem;
-    color: var(--text);
-  }
-
   .form-group input[type="number"] {
     margin-top: 0.5rem;
   }
@@ -916,4 +900,29 @@ fieldset label {
       color: var(--subtle-text);
       font-weight: 800;
     }
+
+    .fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.input-error {
+  border-color: #DC2626 !important;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2) !important;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.progress-bar {
+  transition: width 0.4s ease-in-out;
+}
+
+
 

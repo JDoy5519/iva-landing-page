@@ -25,7 +25,45 @@ document.addEventListener('DOMContentLoaded', () => {
   const thankYouMessage = document.getElementById('thank-you');
   const livedAtAddressRadios = document.querySelectorAll('input[name="livedAtAddress"]');
 const previousAddressContainer = document.getElementById('previous-address');
+const vulnerableRadios = document.querySelectorAll('input[name="feltVulnerable"]');
+const explanationBox = document.getElementById('vulnerability-explanation');
+const vulnerabilityTextarea = document.getElementById('vulnerabilityReason');
+const charCountDisplay = document.getElementById('charCount');
+const changeBankRadios = document.querySelectorAll('input[name="changeBank"]');
+const previousBankContainer = document.getElementById('previous-bank-container');
+const previousBankInput = document.getElementById('previousBank');
 loadFormData();
+
+changeBankRadios.forEach(radio => {
+  radio.addEventListener('change', () => {
+    if (radio.value === 'Yes' && radio.checked) {
+      previousBankContainer.classList.remove('hidden');
+      previousBankInput.setAttribute('required', 'required');
+    } else if (radio.value === 'No' && radio.checked) {
+      previousBankContainer.classList.add('hidden');
+      previousBankInput.removeAttribute('required');
+      previousBankInput.value = '';
+      clearError(previousBankInput);
+    }
+  });
+});
+
+vulnerableRadios.forEach(radio => {
+  radio.addEventListener('change', () => {
+    if (radio.value === 'Yes' && radio.checked) {
+      explanationBox.classList.remove('hidden');
+    } else if (radio.value === 'No' && radio.checked) {
+      explanationBox.classList.add('hidden');
+    }
+  });
+});
+
+if (vulnerabilityTextarea && charCountDisplay) {
+  vulnerabilityTextarea.addEventListener('input', () => {
+    const length = vulnerabilityTextarea.value.length;
+    charCountDisplay.textContent = length;
+  });
+}
 
   document.getElementById('iva-check-form').addEventListener('input', () => {
     saveFormData();
@@ -133,9 +171,17 @@ form.addEventListener('submit', async function (e) {
       body: formData,
     });
 
-    if (response.ok) {
+    // ✅ Treat 200 and 204 as success (FormSubmit uses 204)
+    if (response.status === 200 || response.status === 204) {
+      // 🔥 Google Analytics conversion event
+        gtag('event', 'iva_form_submission', {
+          event_category: 'Form',
+          event_label: 'IVA Claim Submitted',
+          value: 1
+        });
+        
       // Reset saved data
-      localStorage.removeItem('ivaFormData');
+      localStorage.removeItem('ivaFormState');
       form.reset();
 
       // Reset form step view
@@ -151,13 +197,17 @@ form.addEventListener('submit', async function (e) {
       thankYouModal.classList.remove('hidden');
       thankYouModal.classList.add('fade-in');
     } else {
+      console.error('Unexpected response:', response);
       alert('Oops! Something went wrong submitting your claim. Please try again.');
     }
   } catch (err) {
+    console.error('Fetch error:', err);
     alert('Error submitting form. Please check your connection.');
-    console.error(err);
   }
 });
+
+
+  
 
 
 // Close thank-you modal
@@ -452,13 +502,17 @@ function validateStep7() {
   }
 
   // Validate text field
-  const previousBank = document.getElementById('previousBank');
+  const changeBankYes = document.querySelector('input[name="changeBank"][value="Yes"]');
+if (changeBankYes && changeBankYes.checked) {
   if (!previousBank.value.trim()) {
     showError(previousBank, 'Please enter your previous bank');
     valid = false;
   } else {
     clearError(previousBank);
   }
+} else {
+  clearError(previousBank); // Clear errors if not required
+}
 
   // Validate radio groups
   const radioGroups = {
@@ -598,6 +652,8 @@ function validateStep10() {
 
 
 });
+
+
 
 lucide.createIcons();
 

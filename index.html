@@ -4,9 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mis-Sold IVA Claim Checker</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script rel="preconnect" src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QCBEHKT1TP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-QCBEHKT1TP');
+</script>
 </head>
 <body>
   <header class="sticky-header">
@@ -30,7 +39,7 @@
     </div>
 
     <div class="hero-image-wrapper no-background">
-      <img src="images/phone.jpg" alt="JDH Reports mobile claim checker preview" />
+      <img src="images/phone.jpg" alt="JDH Reports mobile claim checker preview" loading="lazy"/>
     </div>
   </div>
 </section>
@@ -62,8 +71,12 @@
   method="POST"
 >
   <!-- Required for FormSubmit to work properly -->
+  <input type="hidden" name="_webhook" value="https://hooks.zapier.com/hooks/catch/23699358/u3sl9ij/">
   <input type="hidden" name="_captcha" value="false" />
   <input type="text" name="_honey" style="display:none" />
+
+  <!-- Optional tracking + fallback -->
+  <input type="hidden" name="form_origin" value="IVA Landing Page" />
 
   <!-- Your existing steps go here (Step 1 to Step 10) -->
 
@@ -464,12 +477,12 @@
       <option value="Referral">Referral</option>
       <option value="Other">Other</option>
     </select>
-    <p id="marketingSource-error" class="error-message"></p>
+    <p id="marketingSource-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
   </div>
 
   <div class="form-group">
-    <label class="section-label">Were you in a DMP before your IVA?*</label>
-    <p id="wasInDMP-error" class="error-message"></p>
+    <label class="section-label">Were you in a Debt Management Plan before your IVA?*</label>
+    <p id="wasInDMP-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
     <div class="radio-group">
       <label class="radio-option">
         <input type="radio" name="wasInDMP" value="Yes" required />
@@ -486,24 +499,24 @@
 
   <div class="form-group">
     <label class="section-label">Did the company explain other debt solutions?*</label>
-    <p id="salesApproach-error" class="error-message"></p>
+    <p id="salesApproach-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
     <div class="radio-group">
       <label class="radio-option">
-        <input type="radio" name="salesApproach" value="ExplainedOptions" required />
+        <input type="radio" name="salesApproach" value="Yes" required />
         <span class="checkmark"></span>
-        Explained Options
+        Yes
       </label>
       <label class="radio-option">
-        <input type="radio" name="salesApproach" value="PushedIVA" />
+        <input type="radio" name="salesApproach" value="No" />
         <span class="checkmark"></span>
-        Pushed IVA
+        No
       </label>
     </div>
   </div>
 
   <div class="form-group">
     <label class="section-label">Did you sign documents electronically?*</label>
-    <p id="signedElectronically-error" class="error-message"></p>
+    <p id="signedElectronically-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
     <div class="radio-group">
       <label class="radio-option">
         <input type="radio" name="signedElectronically" value="Yes" required />
@@ -520,7 +533,7 @@
 
   <div class="form-group">
     <label class="section-label">Did you have vehicle finance before IVA?*</label>
-    <p id="vehicleFinance-error" class="error-message"></p>
+    <p id="vehicleFinance-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
     <div class="radio-group">
       <label class="radio-option">
         <input type="radio" name="vehicleFinance" value="Yes" required />
@@ -537,7 +550,7 @@
 
   <div class="form-group">
     <label class="section-label">Were you advised to change bank accounts?*</label>
-    <p id="changeBank-error" class="error-message"></p>
+    <p id="changeBank-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
     <div class="radio-group">
       <label class="radio-option">
         <input type="radio" name="changeBank" value="Yes" required />
@@ -552,11 +565,12 @@
     </div>
   </div>
 
-  <div class="form-group">
-    <label for="previousBank" class="section-label">Previous Bank*</label>
-    <input type="text" id="previousBank" name="previousBank" required />
-    <p id="previousBank-error" class="error-message"></p>
-  </div>
+ <!-- ✅ Wrap this section so we can show/hide it -->
+<div class="form-group hidden" id="previous-bank-container">
+  <label for="previousBank" class="section-label">Previous Bank*</label>
+  <input type="text" id="previousBank" name="previousBank" />
+  <p id="previousBank-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
+</div>
 
   <div class="form-nav">
     <button type="button" class="prev-btn">Back</button>
@@ -810,6 +824,6 @@
     <p>&copy; 2025 JDH Reports · Reg No. 12533469 · ICO Registered</p>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>
