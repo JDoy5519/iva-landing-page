@@ -179,7 +179,7 @@ form.addEventListener('submit', async function (e) {
           event_label: 'IVA Claim Submitted',
           value: 1
         });
-        
+
       // Reset saved data
       localStorage.removeItem('ivaFormState');
       form.reset();
@@ -627,10 +627,12 @@ function validateStep10() {
     }
     console.log('Current step before advancing:', currentStep, '| Trying to go to:', currentStep + 1);
     goToStep(currentStep + 1);
+    document.getElementById('form-section')?.scrollIntoView({ behavior: 'smooth' });
   }));
 
   prevBtns.forEach(btn => btn.addEventListener('click', () => {
     goToStep(currentStep - 1);
+    document.getElementById('form-section')?.scrollIntoView({ behavior: 'smooth' });
   }));
 
   providerSelect.addEventListener('change', () => {
