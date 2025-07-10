@@ -36,7 +36,7 @@
         <li><i data-lucide="pound-sterling" class="icon-bullet"></i> No Win, No Fee</li>
         <li><i data-lucide="check-circle" class="icon-bullet"></i> Expert IVA Review</li>
       </ul>
-      <button class="cta-btn" id="check-iva">Check My IVA</button>
+      <button class="cta-btn" id="check">Check My IVA</button>
     </div>
 
     <div class="hero-image-wrapper no-background">
@@ -242,23 +242,29 @@
     </div>
   </div>
 
-  <!-- Setup By -->
-  <div class="form-group">
-    <label class="section-label">Who set up your IVA?*</label>
-    <p id="setupBy-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
-    <div class="radio-group">
-      <label class="radio-option">
-        <input type="radio" name="setupBy" value="Self" required />
-        <span class="checkmark"></span>
-        Myself
-      </label>
-      <label class="radio-option">
-        <input type="radio" name="setupBy" value="Partner" />
-        <span class="checkmark"></span>
-        My Partner
-      </label>
-    </div>
+  <!-- Setup Question Group -->
+<div class="form-group" id="setupQuestionGroup" style="display: none;">
+  <label class="section-label" for="partnerName">What is your partner’s name?*</label>
+  <input type="text" id="partnerName" name="partnerName" placeholder="e.g. Jane Doe" style="width: 100%; padding: 0.5rem; border-radius: 6px; border: 1px solid #D1D5DB;" />
+  <p id="partnerName-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
+
+  <label class="section-label" style="margin-top: 1rem;">Who set up your IVA?*</label>
+  <div class="radio-group">
+    <label class="radio-option">
+      <input type="radio" name="setupBy" value="Self" />
+      <span class="checkmark"></span>
+      Myself
+    </label>
+    <label class="radio-option">
+      <input type="radio" name="setupBy" value="Partner" />
+      <span class="checkmark"></span>
+      My Partner
+    </label>
   </div>
+  <p id="setupBy-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
+</div>
+
+
 
 
   <div class="form-nav">
@@ -285,32 +291,34 @@
   <p id="postcode-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
 
   <div class="form-group">
-    <label class="section-label">Did you live at this property when you entered your IVA?*</label>
-    <p id="livedAtAddress-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
-    <div class="radio-group">
-      <label class="radio-option">
-        <input type="radio" name="livedAtAddress" value="Yes" data-toggle="previous-address" data-show="false" required />
-        <span class="checkmark"></span>
-        Yes
-      </label>
-      <label class="radio-option">
-        <input type="radio" name="livedAtAddress" value="No" data-toggle="previous-address" data-show="true" />
-        <span class="checkmark"></span>
-        No
-      </label>
-    </div>
+  <label class="section-label">Are you still living at the address you were living at when your IVA started?*</label>
+  <div class="radio-group">
+    <label class="radio-option">
+      <input type="radio" name="livedAtAddress" value="Yes" required />
+      <span class="checkmark"></span>
+      Yes
+    </label>
+    <label class="radio-option">
+      <input type="radio" name="livedAtAddress" value="No" />
+      <span class="checkmark"></span>
+      No
+    </label>
   </div>
+</div>
+
 
   <div id="previous-address" class="hidden">
-    <label for="previousAddress">Previous Street Address</label>
-    <input type="text" id="previousAddress" name="previousAddress" autocomplete="street-address" />
+  <label for="previousAddress">Address you were living at when your IVA began*</label>
+  <input type="text" id="previousAddress" name="previousAddress" placeholder="Street address" autocomplete="street-address" />
 
-    <label for="previousCity">City</label>
-    <input type="text" id="previousCity" name="previousCity" autocomplete="address-level2" />
+  <label for="previousCity">City*</label>
+  <input type="text" id="previousCity" name="previousCity" placeholder="City or town" autocomplete="address-level2" />
 
-    <label for="previousPostcode">Postcode</label>
-    <input type="text" id="previousPostcode" name="previousPostcode" autocomplete="postal-code" />
-  </div>
+  <label for="previousPostcode">Postcode*</label>
+  <input type="text" id="previousPostcode" name="previousPostcode" placeholder="Postcode" autocomplete="postal-code" />
+
+  <p id="previousAddress-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
+</div>
 
   <label for="residentialStatus">Residential Status at IVA Start*</label>
   <select id="residentialStatus" name="residentialStatus" autocomplete="address-line1" required>
@@ -422,21 +430,36 @@
   <h2>Vulnerability</h2>
 
   <div class="form-group">
-    <label class="section-label">Did you have dependants at the time?*</label>
-    <p id="hadDependants-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
-    <div class="radio-group">
-      <label class="radio-option">
-        <input type="radio" name="hadDependants" value="Yes" required />
-        <span class="checkmark"></span>
-        Yes
-      </label>
-      <label class="radio-option">
-        <input type="radio" name="hadDependants" value="No" />
-        <span class="checkmark"></span>
-        No
-      </label>
-    </div>
+  <label class="section-label">Did you have dependants at the time?*</label>
+  <p id="hadDependants-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
+  <div class="radio-group">
+    <label class="radio-option">
+      <input type="radio" name="hadDependants" value="Yes" required />
+      <span class="checkmark"></span>
+      Yes
+    </label>
+    <label class="radio-option">
+      <input type="radio" name="hadDependants" value="No" />
+      <span class="checkmark"></span>
+      No
+    </label>
   </div>
+</div>
+
+<!-- Dependant details (shown only if "Yes" is selected) -->
+<div id="dependant-details-group" class="form-group" style="display:none;">
+  <label for="dependantDetails">Please provide details (e.g. how many, ages, financial responsibility):</label>
+  <textarea
+    id="dependantDetails"
+    name="dependantDetails"
+    rows="3"
+    placeholder="e.g. 2 children, ages 8 and 11, fully dependent"
+    style="width:100%; padding:0.5rem; border-radius:6px; border:1px solid #D1D5DB;"
+  ></textarea>
+  <p id="dependantDetails-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
+</div>
+
+
 
   <div class="form-group">
     <label class="section-label">Did you feel vulnerable when the IVA was sold to you?*</label>
@@ -473,17 +496,25 @@
   <h2>Sales & Marketing</h2>
 
   <div class="form-group">
-    <label for="marketingSource" class="section-label">How did you first hear of the IVA provider?*</label>
-    <select id="marketingSource" name="marketingSource" required>
-      <option value="">Select one...</option>
-      <option value="Google">Google / Search Engine</option>
-      <option value="SocialMedia">Social Media</option>
-      <option value="ColdCall">Cold Call</option>
-      <option value="Referral">Referral</option>
-      <option value="Other">Other</option>
-    </select>
-    <p id="marketingSource-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
-  </div>
+  <label for="marketingSource" class="section-label">How did you first hear of the IVA provider?*</label>
+  <select id="marketingSource" name="marketingSource" required>
+    <option value="">Select one...</option>
+    <option value="Google">Google / Search Engine</option>
+    <option value="SocialMedia">Social Media</option>
+    <option value="ColdCall">Cold Call</option>
+    <option value="Referral">Referral</option>
+    <option value="Other">Other</option>
+  </select>
+  <p id="marketingSource-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
+</div>
+
+<!-- Only show if 'Other' is selected -->
+<div class="form-group hidden" id="otherMarketingContainer">
+  <label for="otherMarketing">Please specify:</label>
+  <input type="text" id="otherMarketing" name="otherMarketing" placeholder="e.g. Text message, leaflet, etc." />
+  <p id="otherMarketing-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
+</div>
+
 
   <div class="form-group">
     <label class="section-label">Were you in a Debt Management Plan before your IVA?*</label>
@@ -503,7 +534,7 @@
   </div>
 
   <div class="form-group">
-    <label class="section-label">Did the company explain other debt solutions?*</label>
+    <label class="section-label">Did the IVA Provider explain other debt solutions?*</label>
     <p id="salesApproach-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
     <div class="radio-group">
       <label class="radio-option">
@@ -520,21 +551,40 @@
   </div>
 
   <div class="form-group">
-    <label class="section-label">Did you sign documents electronically?*</label>
-    <p id="signedElectronically-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
-    <div class="radio-group">
-      <label class="radio-option">
-        <input type="radio" name="signedElectronically" value="Yes" required />
-        <span class="checkmark"></span>
-        Yes
-      </label>
-      <label class="radio-option">
-        <input type="radio" name="signedElectronically" value="No" />
-        <span class="checkmark"></span>
-        No
-      </label>
-    </div>
+  <label class="section-label">Did you sign documents electronically?*</label>
+  <p id="signedElectronically-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
+  <div class="radio-group">
+    <label class="radio-option">
+      <input type="radio" name="signedElectronically" value="Yes" required />
+      <span class="checkmark"></span>
+      Yes
+    </label>
+    <label class="radio-option">
+      <input type="radio" name="signedElectronically" value="No" />
+      <span class="checkmark"></span>
+      No
+    </label>
   </div>
+</div>
+
+<!-- Only shown if 'Yes' is selected -->
+<div class="form-group hidden" id="signedOnPhoneContainer">
+  <label class="section-label">Did you sign these documents while on the phone with the IVA provider?*</label>
+  <p id="signedOnPhone-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
+  <div class="radio-group">
+    <label class="radio-option">
+      <input type="radio" name="signedOnPhone" value="Yes" />
+      <span class="checkmark"></span>
+      Yes
+    </label>
+    <label class="radio-option">
+      <input type="radio" name="signedOnPhone" value="No" />
+      <span class="checkmark"></span>
+      No
+    </label>
+  </div>
+</div>
+
 
   <div class="form-group">
     <label class="section-label">Did you have vehicle finance before IVA?*</label>

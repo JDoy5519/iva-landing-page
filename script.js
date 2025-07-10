@@ -26,7 +26,111 @@ const charCountDisplay = document.getElementById('charCount');
 const changeBankRadios = document.querySelectorAll('input[name="changeBank"]');
 const previousBankContainer = document.getElementById('previous-bank-container');
 const previousBankInput = document.getElementById('previousBank');
+const ivaTypeRadios = document.querySelectorAll('input[name="ivaType"]');
+const setupGroup = document.getElementById("setupQuestionGroup");
+const setupLabel = document.getElementById("setupQuestionLabel");
+const setupByOptions = document.getElementById("setupByOptions");
+const dependantRadios = document.querySelectorAll('input[name="hadDependants"]');
+const dependantDetailsGroup = document.getElementById('dependant-details-group');
+const dependantDetailsInput = document.getElementById('dependantDetails');
+const marketingSource = document.getElementById('marketingSource');
+const otherMarketingContainer = document.getElementById('otherMarketingContainer');
+const otherMarketingInput = document.getElementById('otherMarketing');
+const signedRadios = document.querySelectorAll('input[name="signedElectronically"]');
+const signedOnPhoneContainer = document.getElementById('signedOnPhoneContainer');
 loadFormData();
+
+signedRadios.forEach(radio => {
+  radio.addEventListener('change', () => {
+    const value = document.querySelector('input[name="signedElectronically"]:checked')?.value;
+    const signedOnPhoneError = document.getElementById('signedOnPhone-error');
+    const signedOnPhoneRadios = document.querySelectorAll('input[name="signedOnPhone"]');
+
+    if (value === "Yes") {
+      signedOnPhoneContainer.classList.remove('hidden');
+    } else {
+      signedOnPhoneContainer.classList.add('hidden');
+      signedOnPhoneRadios.forEach(r => r.checked = false);
+      if (signedOnPhoneError) {
+        signedOnPhoneError.textContent = "";
+        signedOnPhoneError.style.display = "none";
+      }
+    }
+  });
+});
+
+
+marketingSource.addEventListener('change', () => {
+  if (marketingSource.value === 'Other') {
+    otherMarketingContainer.classList.remove('hidden');
+    otherMarketingInput.setAttribute('required', 'required');
+  } else {
+    otherMarketingContainer.classList.add('hidden');
+    otherMarketingInput.removeAttribute('required');
+    otherMarketingInput.value = '';
+    clearError(otherMarketingInput);
+  }
+});
+
+dependantRadios.forEach(radio => {
+  radio.addEventListener('change', () => {
+    const value = document.querySelector('input[name="hadDependants"]:checked')?.value;
+    const dependantDetailsError = document.getElementById('dependantDetails-error');
+
+    if (value === "Yes") {
+      dependantDetailsGroup.style.display = "block";
+    } else {
+      dependantDetailsGroup.style.display = "none";
+      dependantDetailsInput.value = "";
+      dependantDetailsError.textContent = "";
+      dependantDetailsError.style.display = "none";
+    }
+  });
+});
+
+
+ivaTypeRadios.forEach(radio => {
+  radio.addEventListener("change", handleIvaTypeChange);
+});
+
+function handleIvaTypeChange() {
+  const selected = document.querySelector('input[name="ivaType"]:checked')?.value;
+  const setupByRadios = document.querySelectorAll('input[name="setupBy"]');
+  const partnerNameInput = document.getElementById("partnerName");
+
+  if (selected === "Single") {
+    setupGroup.style.display = "none";
+
+    // Add hidden default input for Zapier or submission
+    let hiddenInput = document.getElementById("setupByHidden");
+    if (!hiddenInput) {
+      hiddenInput = document.createElement("input");
+      hiddenInput.type = "hidden";
+      hiddenInput.name = "setupBy";
+      hiddenInput.value = "Self";
+      hiddenInput.id = "setupByHidden";
+      setupGroup.insertAdjacentElement("beforebegin", hiddenInput);
+    } else {
+      hiddenInput.value = "Self";
+    }
+
+    // ✅ Clear joint-specific fields
+    partnerNameInput.value = "";
+    setupByRadios.forEach(radio => radio.checked = false);
+
+    // Hide any existing error messages
+    hideError("partnerName-error");
+    hideError("setupBy-error");
+
+  } else if (selected === "Joint") {
+    setupGroup.style.display = "block";
+
+    // Remove hidden input if exists
+    const hiddenInput = document.getElementById("setupByHidden");
+    if (hiddenInput) hiddenInput.remove();
+  }
+}
+
 
 function isClientExcluded() {
   const ivaStatus = document.querySelector('input[name="ivaStatus"]:checked')?.value.trim().toLowerCase();
@@ -264,10 +368,21 @@ if (testimonyInput && testimonyCount) {
   });
 }
 
-document.getElementById('start-check').addEventListener('click', () => {
-    formSection.classList.remove('hidden');
-    formSection.scrollIntoView({ behavior: 'smooth' });
-  });
+['start-check', 'check'].forEach(id => {
+  const btn = document.getElementById(id);
+  if (btn) {
+    btn.addEventListener('click', () => {
+      console.log('Clicked:', id);
+      const formSection = document.getElementById('form-section');
+      formSection.classList.remove('hidden');
+      formSection.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+});
+
+console.log("Button check:", document.getElementById('check-iva'));
+console.log("Button check:", document.getElementById('start-check'));
+
 
   // Show error message linked to input/group container
   function showError(element, message) {
@@ -351,18 +466,22 @@ document.getElementById('start-check').addEventListener('click', () => {
     return !!document.querySelector(`input[name="${name}"]:checked`);
   }
 
-  function validateStep3() {
+ function validateStep3() {
   let valid = true;
 
   const monthlyPayment = document.getElementById('monthlyPayment');
+  const ivaType = document.querySelector('input[name="ivaType"]:checked')?.value;
+  const partnerNameInput = document.getElementById('partnerName');
+
+  // Map of radio group labels
   const groupLabels = {
     ivaStatus: 'IVA status',
     debtLevel: 'debt level',
-    ivaType: 'IVA type',
-    setupBy: 'who set up your IVA'
+    ivaType: 'IVA type'
+    // setupBy removed from here – validated separately for Joint
   };
 
-  // Validate radio groups
+  // Validate radio groups (excluding setupBy – handled below)
   Object.keys(groupLabels).forEach(name => {
     const errorElement = document.getElementById(`${name}-error`);
     const isChecked = document.querySelector(`input[name="${name}"]:checked`);
@@ -386,8 +505,36 @@ document.getElementById('start-check').addEventListener('click', () => {
     clearError(monthlyPayment);
   }
 
+  // ✅ Additional validation for Joint IVA
+  if (ivaType === "Joint") {
+    const setupBy = document.querySelector('input[name="setupBy"]:checked');
+    const partnerNameError = document.getElementById('partnerName-error');
+    const setupByError = document.getElementById('setupBy-error');
+
+    // Validate partner name
+    if (!partnerNameInput || !partnerNameInput.value.trim()) {
+      partnerNameError.textContent = "Please enter your partner's name";
+      partnerNameError.style.display = "block";
+      valid = false;
+    } else {
+      partnerNameError.textContent = "";
+      partnerNameError.style.display = "none";
+    }
+
+    // Validate who set it up
+    if (!setupBy) {
+      setupByError.textContent = "Please select who set up your IVA";
+      setupByError.style.display = "block";
+      valid = false;
+    } else {
+      setupByError.textContent = "";
+      setupByError.style.display = "none";
+    }
+  }
+
   return valid;
 }
+
 
 
   function validateStep4() {
@@ -497,7 +644,7 @@ document.getElementById('start-check').addEventListener('click', () => {
 }
 
 
-  function validateStep6() {
+ function validateStep6() {
   let valid = true;
 
   const radioGroups = {
@@ -523,8 +670,25 @@ document.getElementById('start-check').addEventListener('click', () => {
     }
   });
 
+  // ✅ Only require dependant details if "Yes" selected
+  const hadDependantsYes = document.querySelector('input[name="hadDependants"][value="Yes"]')?.checked;
+  const dependantDetails = document.getElementById('dependantDetails');
+  const dependantDetailsError = document.getElementById('dependantDetails-error');
+
+  if (hadDependantsYes) {
+    if (!dependantDetails.value.trim()) {
+      dependantDetailsError.textContent = "Please provide details about your dependants";
+      dependantDetailsError.style.display = "block";
+      valid = false;
+    } else {
+      dependantDetailsError.textContent = "";
+      dependantDetailsError.style.display = "none";
+    }
+  }
+
   return valid;
 }
+
 
 function validateStep7() {
   let valid = true;
@@ -559,6 +723,29 @@ if (changeBankYes && changeBankYes.checked) {
     vehicleFinance: 'Please indicate if you had vehicle finance before the IVA',
     changeBank: 'Please indicate if you were advised to change bank accounts'
   };
+
+  if (marketingSource.value === 'Other') {
+  if (!otherMarketingInput.value.trim()) {
+    showError(otherMarketingInput, 'Please specify how you heard about the IVA provider');
+    valid = false;
+  } else {
+    clearError(otherMarketingInput);
+  }
+}
+
+const signedElectronicallyYes = document.querySelector('input[name="signedElectronically"][value="Yes"]')?.checked;
+if (signedElectronicallyYes) {
+  const signedOnPhone = document.querySelector('input[name="signedOnPhone"]:checked');
+  const signedOnPhoneError = document.getElementById('signedOnPhone-error');
+  if (!signedOnPhone) {
+    signedOnPhoneError.textContent = "Please indicate if you signed documents while on the phone";
+    signedOnPhoneError.style.display = "block";
+    valid = false;
+  } else {
+    signedOnPhoneError.textContent = "";
+    signedOnPhoneError.style.display = "none";
+  }
+}
 
   Object.entries(radioGroups).forEach(([name, message]) => {
     const error = document.getElementById(`${name}-error`);
