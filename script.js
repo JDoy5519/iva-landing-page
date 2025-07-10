@@ -267,6 +267,8 @@ function loadFormData() {
       } else {
         field.value = value;
       }
+
+      reapplyAllConditionalVisibility();
     });
 
     if (typeof data.currentStep === 'number' && steps[data.currentStep]) {
@@ -884,6 +886,103 @@ nextBtns.forEach(btn => btn.addEventListener('click', () => {
   formSection.classList.remove('hidden');
   formSection.scrollIntoView({ behavior: 'smooth' });
 });
+
+// Visibility re-check functions for conditional fields on page load
+
+function updateIvaProviderVisibility() {
+  const ivaProvider = document.getElementById('ivaProvider');
+  const otherProviderContainer = document.getElementById('other-provider-container');
+  if (ivaProvider && ivaProvider.value === 'Other') {
+    otherProviderContainer.classList.remove('hidden');
+  } else {
+    otherProviderContainer.classList.add('hidden');
+  }
+}
+
+function updateIvaTypeVisibility() {
+  const ivaType = document.querySelector('input[name="ivaType"]:checked')?.value;
+  const setupQuestionGroup = document.getElementById('setupQuestionGroup');
+  if (ivaType === 'Joint') {
+    setupQuestionGroup.classList.remove('hidden');
+  } else {
+    setupQuestionGroup.classList.add('hidden');
+  }
+}
+
+function updatePreviousAddressVisibility() {
+  const livedAtAddress = document.querySelector('input[name="livedAtAddress"]:checked')?.value;
+  const previousAddress = document.getElementById('previous-address');
+  if (livedAtAddress === 'No') {
+    previousAddress.style.display = 'block';
+  } else {
+    previousAddress.style.display = 'none';
+  }
+}
+
+function updateDependantDetailsVisibility() {
+  const hadDependants = document.querySelector('input[name="hadDependants"]:checked')?.value;
+  const dependantDetailsGroup = document.getElementById('dependant-details-group');
+  if (hadDependants === 'Yes') {
+    dependantDetailsGroup.style.display = 'block';
+  } else {
+    dependantDetailsGroup.style.display = 'none';
+  }
+}
+
+function updateVulnerabilityVisibility() {
+  const feltVulnerable = document.querySelector('input[name="feltVulnerable"]:checked')?.value;
+  const vulnerabilityExplanation = document.getElementById('vulnerability-explanation');
+  if (feltVulnerable === 'Yes') {
+    vulnerabilityExplanation.style.display = 'block';
+  } else {
+    vulnerabilityExplanation.style.display = 'none';
+  }
+}
+
+function updateMarketingSourceVisibility() {
+  const marketingSource = document.getElementById('marketingSource');
+  const otherMarketingContainer = document.getElementById('otherMarketingContainer');
+  const otherMarketingInput = document.getElementById('otherMarketing');
+  if (marketingSource && marketingSource.value === 'Other') {
+    otherMarketingContainer.classList.remove('hidden');
+    otherMarketingInput.setAttribute('required', 'required');
+  } else {
+    otherMarketingContainer.classList.add('hidden');
+    otherMarketingInput.removeAttribute('required');
+  }
+}
+
+function updateSignedElectronicallyVisibility() {
+  const signedElectronically = document.querySelector('input[name="signedElectronically"]:checked')?.value;
+  const signedOnPhoneContainer = document.getElementById('signedOnPhoneContainer');
+  if (signedElectronically === 'Yes') {
+    signedOnPhoneContainer.classList.remove('hidden');
+  } else {
+    signedOnPhoneContainer.classList.add('hidden');
+  }
+}
+
+function updateChangeBankVisibility() {
+  const changeBank = document.querySelector('input[name="changeBank"]:checked')?.value;
+  const previousBankContainer = document.getElementById('previous-bank-container');
+  if (changeBank === 'Yes') {
+    previousBankContainer.classList.remove('hidden');
+  } else {
+    previousBankContainer.classList.add('hidden');
+  }
+}
+
+// Call these after loadFormData or on DOMContentLoaded to restore conditional states
+function reapplyAllConditionalVisibility() {
+  updateIvaProviderVisibility();
+  updateIvaTypeVisibility();
+  updatePreviousAddressVisibility();
+  updateDependantDetailsVisibility();
+  updateVulnerabilityVisibility();
+  updateMarketingSourceVisibility();
+  updateSignedElectronicallyVisibility();
+  updateChangeBankVisibility();
+}
 
 
 });
