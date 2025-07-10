@@ -2,12 +2,6 @@ let currentStep = 0;
 console.log('🔍 Initial currentStep:', currentStep);
 let steps;
 
-
-
-
-
-
-
 document.addEventListener('DOMContentLoaded', () => {
   let currentStep = 0;
   console.log('🔍 Initial currentStep:', currentStep);
@@ -33,6 +27,49 @@ const changeBankRadios = document.querySelectorAll('input[name="changeBank"]');
 const previousBankContainer = document.getElementById('previous-bank-container');
 const previousBankInput = document.getElementById('previousBank');
 loadFormData();
+
+function isClientExcluded() {
+  const ivaStatus = document.querySelector('input[name="ivaStatus"]:checked')?.value.trim().toLowerCase();
+  const monthlyPayment = parseFloat(document.getElementById("monthlyPayment").value.trim());
+  const debtLevel = document.querySelector('input[name="debtLevel"]:checked')?.value;
+
+  console.log("Status:", ivaStatus, "| Payment:", monthlyPayment, "| Debt:", debtLevel);
+
+  // EXCLUDE if IVA is still active
+  if (ivaStatus === "active") return true;
+
+  // EXCLUDE if debt < £7500 and payment < £150
+  if (debtLevel === "0-7500" && monthlyPayment < 150) return true;
+
+  return false; // otherwise, allow
+}
+
+
+function showExclusionMessage() {
+  const modal = document.getElementById("exclusion-modal");
+  modal.style.display = "flex";
+
+  // Optional: disable all next buttons to prevent race clicks
+  nextBtns.forEach(btn => btn.disabled = true);
+
+  // Optional: block interaction with overlay
+  const blocker = document.createElement("div");
+  blocker.style.position = "fixed";
+  blocker.style.top = "0";
+  blocker.style.left = "0";
+  blocker.style.width = "100vw";
+  blocker.style.height = "100vh";
+  blocker.style.zIndex = "9998";
+  blocker.style.backgroundColor = "transparent";
+  document.body.appendChild(blocker);
+
+  // Redirect after short delay
+  setTimeout(() => {
+    window.location.href = "./not-eligible.html";
+  }, 5000);
+}
+
+
 
 changeBankRadios.forEach(radio => {
   radio.addEventListener('change', () => {
@@ -619,16 +656,25 @@ function validateStep10() {
     validateStep10
   ];
 
-  nextBtns.forEach(btn => btn.addEventListener('click', () => {
-    if (validators[currentStep]) {
-      if (!validators[currentStep]()) {
-        return;
-      }
+  const ELIGIBILITY_STEP_INDEX = 2; // replace with your actual step index for IVA/payment/debt
+
+nextBtns.forEach(btn => btn.addEventListener('click', () => {
+  if (validators[currentStep]) {
+    if (!validators[currentStep]()) {
+      return;
     }
-    console.log('Current step before advancing:', currentStep, '| Trying to go to:', currentStep + 1);
-    goToStep(currentStep + 1);
-    document.getElementById('form-section')?.scrollIntoView({ behavior: 'smooth' });
-  }));
+  }
+
+  if (currentStep === ELIGIBILITY_STEP_INDEX && isClientExcluded()) {
+    showExclusionMessage();
+    return;
+  }
+
+  console.log('Current step before advancing:', currentStep, '| Trying to go to:', currentStep + 1);
+  goToStep(currentStep + 1);
+  document.getElementById('form-section')?.scrollIntoView({ behavior: 'smooth' });
+}));
+
 
   prevBtns.forEach(btn => btn.addEventListener('click', () => {
     goToStep(currentStep - 1);
