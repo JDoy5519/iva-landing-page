@@ -18,27 +18,27 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('iva-check-form');
   const thankYouMessage = document.getElementById('thank-you');
   const livedAtAddressRadios = document.querySelectorAll('input[name="livedAtAddress"]');
-const previousAddressContainer = document.getElementById('previous-address');
-const vulnerableRadios = document.querySelectorAll('input[name="feltVulnerable"]');
-const explanationBox = document.getElementById('vulnerability-explanation');
-const vulnerabilityTextarea = document.getElementById('vulnerabilityReason');
-const charCountDisplay = document.getElementById('charCount');
-const changeBankRadios = document.querySelectorAll('input[name="changeBank"]');
-const previousBankContainer = document.getElementById('previous-bank-container');
-const previousBankInput = document.getElementById('previousBank');
-const ivaTypeRadios = document.querySelectorAll('input[name="ivaType"]');
-const setupGroup = document.getElementById("setupQuestionGroup");
-const setupLabel = document.getElementById("setupQuestionLabel");
-const setupByOptions = document.getElementById("setupByOptions");
-const dependantRadios = document.querySelectorAll('input[name="hadDependants"]');
-const dependantDetailsGroup = document.getElementById('dependant-details-group');
-const dependantDetailsInput = document.getElementById('dependantDetails');
-const marketingSource = document.getElementById('marketingSource');
-const otherMarketingContainer = document.getElementById('otherMarketingContainer');
-const otherMarketingInput = document.getElementById('otherMarketing');
-const signedRadios = document.querySelectorAll('input[name="signedElectronically"]');
-const signedOnPhoneContainer = document.getElementById('signedOnPhoneContainer');
-loadFormData();
+  const previousAddressContainer = document.getElementById('previous-address');
+  const vulnerableRadios = document.querySelectorAll('input[name="feltVulnerable"]');
+  const explanationBox = document.getElementById('vulnerability-explanation');
+  const vulnerabilityTextarea = document.getElementById('vulnerabilityReason');
+  const charCountDisplay = document.getElementById('charCount');
+  const changeBankRadios = document.querySelectorAll('input[name="changeBank"]');
+  const previousBankContainer = document.getElementById('previous-bank-container');
+  const previousBankInput = document.getElementById('previousBank');
+  const ivaTypeRadios = document.querySelectorAll('input[name="ivaType"]');
+  const setupGroup = document.getElementById("setupQuestionGroup");
+  const setupLabel = document.getElementById("setupQuestionLabel");
+  const setupByOptions = document.getElementById("setupByOptions");
+  const dependantRadios = document.querySelectorAll('input[name="hadDependants"]');
+  const dependantDetailsGroup = document.getElementById('dependant-details-group');
+  const dependantDetailsInput = document.getElementById('dependantDetails');
+  const marketingSource = document.getElementById('marketingSource');
+  const otherMarketingContainer = document.getElementById('otherMarketingContainer');
+  const otherMarketingInput = document.getElementById('otherMarketing');
+  const signedRadios = document.querySelectorAll('input[name="signedElectronically"]');
+  const signedOnPhoneContainer = document.getElementById('signedOnPhoneContainer');
+  loadFormData();
 
 signedRadios.forEach(radio => {
   radio.addEventListener('change', () => {
@@ -315,7 +315,7 @@ form.addEventListener('submit', async function (e) {
     });
 
     // ✅ Treat 200 and 204 as success (FormSubmit uses 204)
-    if (response.status === 200 || response.status === 204) {
+    if (response.ok) {
       // 🔥 Google Analytics conversion event
         gtag('event', 'iva_form_submission', {
           event_category: 'Form',
