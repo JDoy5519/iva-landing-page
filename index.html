@@ -77,27 +77,29 @@
     <section id="form-section" class="form-section hidden">
       <div class="form-inner">
          <div class="progress-wrapper">
-            <span class="progress-label" id="progress-label">Step 1 of 10</span>
+            <span class="progress-label" id="progress-label">Step 1 of 5</span>
             <div class="progress-container">
             <div class="progress-bar" id="progress-bar"></div>
             </div>
           </div>
-        <!-- Full 10-step form starts here -->
-        <!-- We use the live canvas document: 'Iva Form Full' -->
-        <form
-  id="iva-check-form"
-  action="https://hooks.zapier.com/hooks/catch/23699358/u3sl9ij/"
-  method="POST"
->
-  <input type="text" name="_honey" style="display:none" />
-  <input type="hidden" name="form_origin" value="IVA Landing Page" />
 
-  <!-- Your existing steps go here (Step 1 to Step 10) -->
+  <!-- Full 5-step form starts here -->
+  <!-- We use the live canvas document: 'Iva Form Full' -->
 
-  <!-- Step 1 -->
-<div class="form-step active" data-step="0">
-  <div class="step-indicator">Step 1 of 10</div>
-  <h2>Your Contact Details</h2>
+    <form
+      id="iva-check-form"
+      action="https://hooks.zapier.com/hooks/catch/23699358/u3sl9ij/"
+      method="POST"
+    >
+    <input type="text" name="_honey" style="display:none" />
+    <input type="hidden" name="form_origin" value="IVA Landing Page" />
+
+  <!-- Your existing steps go here (Step 1 to Step 5) -->
+
+  <!-- Step 1 (Start) -->
+  <div class="form-step active" data-step="0">
+    <div class="step-indicator">Step 1 of 5</div>
+    <h2>Start</h2>
 
   <label for="fullName">Full Name*</label>
   <input
@@ -123,17 +125,6 @@
     aria-describedby="email-error"
   >
   <p id="email-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
-
-  <div class="form-nav">
-    <button type="button" class="next-btn">Next</button>
-  </div>
-</div>
-
-
-<!-- Step 2 -->
-<div class="form-step" data-step="1">
-  <div class="step-indicator">Step 2 of 10</div>
-  <h2>Your IVA Provider</h2>
 
   <label for="iva-provider">IVA Provider*</label>
   <select id="iva-provider" name="ivaProvider" required class="iva-provider-select">
@@ -175,138 +166,131 @@
   />
   <p id="ivaRef-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
 
-<div class="helper-box">
-  <strong>Where to find your IVA reference:</strong>
-    <ul>
-      <li>Welcome pack or initial IVA agreement letter from your provider</li>
-      <li>Emails or letters from the IVA provider (often in the subject line)</li>
-      <li>Annual review or statement documents</li>
-      <li>Your credit report (next to the IVA entry)</li>
-    </ul>
-    <p class="essential-note">
-      This number is essential for us to request your documents from the IVA provider and assess your claim.  
-      Without it, we may not be able to proceed.
-    </p>
-    <p class="helper-note">
-      Tip: search your email for your provider’s name plus “IVA” or “reference”.
-    </p>
-</div>
-
-    <div class="form-nav">
-      <button type="button" class="prev-btn">Back</button>
-      <button type="button" class="next-btn">Next</button>
-    </div>
+  <div class="helper-box">
+    <strong>Where to find your IVA reference:</strong>
+      <ul>
+        <li>Welcome pack or initial IVA agreement letter from your provider</li>
+        <li>Emails or letters from the IVA provider (often in the subject line)</li>
+        <li>Annual review or statement documents</li>
+        <li>Your credit report (next to the IVA entry)</li>
+      </ul>
+      <p class="essential-note">
+        This number is essential for us to request your documents from the IVA provider and assess your claim.  
+        Without it, we may not be able to proceed.
+      </p>
+      <p class="helper-note">
+        Tip: search your email for your provider’s name plus “IVA” or “reference”.
+      </p>
   </div>
 
+  <div class="form-nav">
+    <button type="button" class="next-btn">Next</button>
+  </div>
+</div>
 
-<!-- Step 3 -->
-<div class="form-step" data-step="2">
-  <div class="step-indicator">Step 3 of 10</div>
-  <h2>Your IVA Details</h2>
+<!-- Step 2 (IVA Details) -->
+<div class="form-step" data-step="1">
+  <div class="step-indicator">Step 2 of 5</div>
+  <h2>IVA Details</h2>
 
- <!-- IVA Status -->
+  <p class="status-note status-note-large">
+  Please note: we can only process cases where the IVA is <strong>Completed</strong> or <strong>Failed</strong>.  
+  If your IVA is still Active or In Arrears, you will not be eligible for a claim.
+  </p>
+
+  <!-- IVA Status -->
+    <div class="form-group">
+      <label class="section-label">What is the current status of your IVA?*</label>
+      <p class="status-note status-note-small">
+        Only <strong>Completed</strong> or <strong>Failed</strong> cases are eligible.
+      </p>
+      <p id="ivaStatus-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
+      <div class="radio-group">
+        <label class="radio-option">
+          <input type="radio" name="ivaStatus" value="Completed" required />
+          <span class="checkmark"></span>
+          Completed
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="ivaStatus" value="Failed" />
+          <span class="checkmark"></span>
+          Failed
+        </label>
+      </div>
+    </div>
+
+      <!-- Monthly Payment -->
+      <div class="form-group">
+        <label for="monthlyPayment">Monthly IVA Payment*</label>
+        <input type="number" id="monthlyPayment" name="monthlyPayment" placeholder="e.g. 120" min="1" required />
+        <p id="monthlyPayment-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
+      </div>
+
+    <!-- Debt Level -->
   <div class="form-group">
-    <label class="section-label">What is the current status of your IVA?*</label>
-    <p id="ivaStatus-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
+    <label class="section-label">What is your approximate debt level?*</label>
+    <p id="debtLevel-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
     <div class="radio-group">
       <label class="radio-option">
-        <input type="radio" name="ivaStatus" value="Active" required />
+        <input type="radio" name="debtLevel" value="0-7500" required />
         <span class="checkmark"></span>
-        Active
+        £0 – £7,500
       </label>
       <label class="radio-option">
-        <input type="radio" name="ivaStatus" value="Completed" />
+        <input type="radio" name="debtLevel" value="7500-15000" />
         <span class="checkmark"></span>
-        Completed
+        £7,500 – £15,000
       </label>
       <label class="radio-option">
-        <input type="radio" name="ivaStatus" value="Failed" />
+        <input type="radio" name="debtLevel" value="15000plus" />
         <span class="checkmark"></span>
-        Failed
-      </label>
-      <label class="radio-option">
-        <input type="radio" name="ivaStatus" value="InArrears" />
-        <span class="checkmark"></span>
-        In Arrears
+        £15,000+
       </label>
     </div>
   </div>
 
-  <!-- Monthly Payment -->
-  <div class="form-group">
-    <label for="monthlyPayment">Monthly IVA Payment*</label>
-    <input type="number" id="monthlyPayment" name="monthlyPayment" placeholder="e.g. 120" min="1" required />
-    <p id="monthlyPayment-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
-  </div>
-
-  <!-- Debt Level -->
-<div class="form-group">
-  <label class="section-label">What is your approximate debt level?*</label>
-  <p id="debtLevel-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
-  <div class="radio-group">
-    <label class="radio-option">
-      <input type="radio" name="debtLevel" value="0-7500" required />
-      <span class="checkmark"></span>
-      £0 – £7,500
-    </label>
-    <label class="radio-option">
-      <input type="radio" name="debtLevel" value="7500-15000" />
-      <span class="checkmark"></span>
-      £7,500 – £15,000
-    </label>
-    <label class="radio-option">
-      <input type="radio" name="debtLevel" value="15000plus" />
-      <span class="checkmark"></span>
-      £15,000+
-    </label>
-  </div>
-</div>
 
 
 
+    <!-- IVA Type -->
+    <div class="form-group">
+      <label class="section-label">Is your IVA a single or joint arrangement?*</label>
+      <p id="ivaType-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
+      <div class="radio-group">
+        <label class="radio-option">
+          <input type="radio" name="ivaType" value="Single" required />
+          <span class="checkmark"></span>
+          Single
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="ivaType" value="Joint" />
+          <span class="checkmark"></span>
+          Joint
+        </label>
+      </div>
+    </div>
 
-  <!-- IVA Type -->
-  <div class="form-group">
-    <label class="section-label">Is your IVA a single or joint arrangement?*</label>
-    <p id="ivaType-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
+    <!-- Setup Question Group -->
+  <div class="form-group" id="setupQuestionGroup" style="display: none;">
+    <label class="section-label" for="partnerName">What is your partner's name?*</label>
+    <input type="text" id="partnerName" name="partnerName" placeholder="e.g. Jane Doe" style="width: 100%; padding: 0.5rem; border-radius: 6px; border: 1px solid #D1D5DB;" />
+    <p id="partnerName-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
+
+    <label class="section-label" style="margin-top: 1rem;">Who set up your IVA?*</label>
     <div class="radio-group">
       <label class="radio-option">
-        <input type="radio" name="ivaType" value="Single" required />
+        <input type="radio" name="setupBy" value="Self" />
         <span class="checkmark"></span>
-        Single
+        Myself
       </label>
       <label class="radio-option">
-        <input type="radio" name="ivaType" value="Joint" />
+        <input type="radio" name="setupBy" value="Partner" />
         <span class="checkmark"></span>
-        Joint
+        My Partner
       </label>
     </div>
+    <p id="setupBy-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
   </div>
-
-  <!-- Setup Question Group -->
-<div class="form-group" id="setupQuestionGroup" style="display: none;">
-  <label class="section-label" for="partnerName">What is your partner’s name?*</label>
-  <input type="text" id="partnerName" name="partnerName" placeholder="e.g. Jane Doe" style="width: 100%; padding: 0.5rem; border-radius: 6px; border: 1px solid #D1D5DB;" />
-  <p id="partnerName-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
-
-  <label class="section-label" style="margin-top: 1rem;">Who set up your IVA?*</label>
-  <div class="radio-group">
-    <label class="radio-option">
-      <input type="radio" name="setupBy" value="Self" />
-      <span class="checkmark"></span>
-      Myself
-    </label>
-    <label class="radio-option">
-      <input type="radio" name="setupBy" value="Partner" />
-      <span class="checkmark"></span>
-      My Partner
-    </label>
-  </div>
-  <p id="setupBy-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
-</div>
-
-
-
 
   <div class="form-nav">
     <button type="button" class="prev-btn">Back</button>
@@ -314,10 +298,10 @@
   </div>
 </div>
 
-  <!-- Step 4 -->
-<div class="form-step" data-step="3">
-  <div class="step-indicator">Step 4 of 10</div>
-  <h2>Address & Residency</h2>
+<!-- Step 3 (Address & Dependants) -->
+<div class="form-step" data-step="2">
+  <div class="step-indicator">Step 3 of 5</div>
+  <h2>Address & Dependants</h2>
 
   <label for="currentAddress">Current Street Address*</label>
   <input type="text" id="currentAddress" name="currentAddress" autocomplete="street-address" required />
@@ -332,7 +316,7 @@
   <p id="postcode-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
 
   <div class="form-group">
-  <label class="section-label">Are you still living at the address you were living at when your IVA started?*</label>
+  <label class="section-label">Is this the address you were living at when the IVA started?*</label>
   <div class="radio-group">
     <label class="radio-option">
       <input type="radio" name="livedAtAddress" value="Yes" required />
@@ -371,21 +355,47 @@
   </select>
   <p id="residentialStatus-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
 
+  <!-- Show only when "Other" is selected -->
+  <div class="form-group hidden" id="residentialOtherContainer">
+    <label for="otherResidentialDetails" class="section-label">Please describe your living situation*</label>
+    <textarea
+      id="otherResidentialDetails"
+      name="otherResidentialDetails"
+      rows="3"
+      placeholder="e.g. Temporary accommodation, staying with friends, etc."
+    ></textarea>
+    <p id="otherResidentialDetails-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
+  </div>
+  
   <div class="form-group">
-    <label class="section-label">Were you in mortgage arrears at the time or since?*</label>
-    <p id="mortgageArrears-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
+    <label class="section-label">Did you have dependants at the time?*</label>
+    <p id="hadDependants-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
     <div class="radio-group">
       <label class="radio-option">
-        <input type="radio" name="mortgageArrears" value="Yes" required />
+        <input type="radio" name="hadDependants" value="Yes" required />
         <span class="checkmark"></span>
         Yes
       </label>
       <label class="radio-option">
-        <input type="radio" name="mortgageArrears" value="No" />
+        <input type="radio" name="hadDependants" value="No" />
         <span class="checkmark"></span>
         No
       </label>
     </div>
+  </div>
+
+  <!-- Number of dependants (shown only if "Yes" is selected) -->
+  <div id="dependant-details-group" class="form-group" style="display:none;">
+    <label for="dependantDetails">Number of dependants*</label>
+    <input
+      type="number"
+      id="dependantDetails"
+      name="dependantDetails"
+      min="0"
+      placeholder="e.g. 2"
+      style="width:100%; padding:0.75rem; border-radius:6px; border:1px solid #D1D5DB;"
+    />
+    <p id="dependantDetails-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
   </div>
 
   <div class="form-nav">
@@ -394,24 +404,23 @@
   </div>
 </div>
 
-
-  <!-- Step 5 -->
-<div class="form-step" data-step="4">
-  <div class="step-indicator">Step 5 of 10</div>
-  <h2>Employment & Income</h2>
+<!-- Step 4 (Employment & Sales) -->
+<div class="form-step" data-step="3">
+  <div class="step-indicator">Step 4 of 5</div>
+  <h2>Employment & Sales</h2>
 
   <div class="form-group">
-  <label for="employmentStatus" class="section-label">Employment Status at the Time*</label>
-  <select id="employmentStatus" name="employmentStatus" required>
-    <option value="">Select your employment status...</option>
-    <option value="Employed">Employed</option>
-    <option value="PartTime">Part-Time</option>
-    <option value="SelfEmployed">Self-Employed</option>
-    <option value="Unemployed">Unemployed</option>
-    <option value="Retired">Retired</option>
-  </select>
-  <p id="employmentStatus-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
-</div>
+    <label for="employmentStatus" class="section-label">Employment Status at the Time*</label>
+    <select id="employmentStatus" name="employmentStatus" required>
+      <option value="">Select your employment status...</option>
+      <option value="Employed">Employed</option>
+      <option value="PartTime">Part-Time</option>
+      <option value="SelfEmployed">Self-Employed</option>
+      <option value="Unemployed">Unemployed</option>
+      <option value="Retired">Retired</option>
+    </select>
+    <p id="employmentStatus-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
+  </div>
 
   <div class="form-group">
     <label for="jobTitle" class="section-label">Job Role / Title*</label>
@@ -424,118 +433,7 @@
     <input type="text" id="salary" name="salary" required />
     <p id="salary-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
   </div>
-
-  <div class="form-group">
-    <label class="section-label">Was income based on commissions/overtime?*</label>
-    <p id="commissionBased-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
-    <div class="radio-group">
-      <label class="radio-option">
-        <input type="radio" name="commissionBased" value="Yes" required />
-        <span class="checkmark"></span>
-        Yes
-      </label>
-      <label class="radio-option">
-        <input type="radio" name="commissionBased" value="No" />
-        <span class="checkmark"></span>
-        No
-      </label>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label class="section-label">Did income change significantly during IVA?*</label>
-    <p id="incomeChanged-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
-    <div class="radio-group">
-      <label class="radio-option">
-        <input type="radio" name="incomeChanged" value="Yes" required />
-        <span class="checkmark"></span>
-        Yes
-      </label>
-      <label class="radio-option">
-        <input type="radio" name="incomeChanged" value="No" />
-        <span class="checkmark"></span>
-        No
-      </label>
-    </div>
-  </div>
-
-  <div class="form-nav">
-    <button type="button" class="prev-btn">Back</button>
-    <button type="button" class="next-btn">Next</button>
-  </div>
-</div>
-
-<!-- Step 6 -->
-<div class="form-step" data-step="5">
-  <div class="step-indicator">Step 6 of 10</div>
-  <h2>Vulnerability</h2>
-
-  <div class="form-group">
-  <label class="section-label">Did you have dependants at the time?*</label>
-  <p id="hadDependants-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
-  <div class="radio-group">
-    <label class="radio-option">
-      <input type="radio" name="hadDependants" value="Yes" required />
-      <span class="checkmark"></span>
-      Yes
-    </label>
-    <label class="radio-option">
-      <input type="radio" name="hadDependants" value="No" />
-      <span class="checkmark"></span>
-      No
-    </label>
-  </div>
-</div>
-
-<!-- Dependant details (shown only if "Yes" is selected) -->
-<div id="dependant-details-group" class="form-group" style="display:none;">
-  <label for="dependantDetails">Please provide details (e.g. how many, ages, financial responsibility):</label>
-  <textarea
-    id="dependantDetails"
-    name="dependantDetails"
-    rows="3"
-    placeholder="e.g. 2 children, ages 8 and 11, fully dependent"
-    style="width:100%; padding:0.5rem; border-radius:6px; border:1px solid #D1D5DB;"
-  ></textarea>
-  <p id="dependantDetails-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
-</div>
-
-
-
-  <div class="form-group">
-    <label class="section-label">Did you feel vulnerable when the IVA was sold to you?*</label>
-    <p id="feltVulnerable-error" class="error-message" style="display:none;color:#DC2626;font-size:0.9rem;margin-top:0.25rem;"></p>
-    <div class="radio-group">
-      <label class="radio-option">
-        <input type="radio" name="feltVulnerable" value="Yes" required />
-        <span class="checkmark"></span>
-        Yes
-      </label>
-      <label class="radio-option">
-        <input type="radio" name="feltVulnerable" value="No" />
-        <span class="checkmark"></span>
-        No
-      </label>
-    </div>
-  </div>
-
-  <div id="vulnerability-explanation" class="hidden">
-    <label for="vulnerabilityReason">If yes, please explain:</label>
-    <textarea id="vulnerabilityReason" name="vulnerabilityReason" rows="5"></textarea>
-    <div class="char-counter"><span id="charCount">0</span> / 1000 characters</div>
-  </div>
-
-  <div class="form-nav">
-    <button type="button" class="prev-btn">Back</button>
-    <button type="button" class="next-btn">Next</button>
-  </div>
-</div>
-
-  <!-- Step 7 -->
-<div class="form-step" data-step="6">
-  <div class="step-indicator">Step 7 of 10</div>
-  <h2>Sales & Marketing</h2>
-
+  
   <div class="form-group">
   <label for="marketingSource" class="section-label">How did you first hear of the IVA provider?*</label>
   <select id="marketingSource" name="marketingSource" required>
@@ -661,25 +559,18 @@
     </div>
   </div>
 
- <!-- ✅ Wrap this section so we can show/hide it -->
-<div class="form-group hidden" id="previous-bank-container">
-  <label for="previousBank" class="section-label">Previous Bank*</label>
-  <input type="text" id="previousBank" name="previousBank" />
-  <p id="previousBank-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
-</div>
-
   <div class="form-nav">
     <button type="button" class="prev-btn">Back</button>
     <button type="button" class="next-btn">Next</button>
   </div>
 </div>
 
-  <!-- Step 8 -->
-<div class="form-step" data-step="7">
-  <div class="step-indicator">Step 8 of 10</div>
-  <h2>Affordability & Experience</h2>
+<!-- Step 5 (Affordability & Consent) -->
+<div class="form-step" data-step="4">
+  <div class="step-indicator">Step 5 of 5</div>
+  <h2>Affordability & Consent</h2>
 
-  <div class="form-group">
+<div class="form-group">
     <label class="section-label">Was the payment affordable when IVA began?*</label>
     <p id="paymentAffordable-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
     <div class="radio-group">
@@ -764,34 +655,6 @@
     </div>
   </div>
 
-  <div class="form-nav">
-    <button type="button" class="prev-btn">Back</button>
-    <button type="button" class="next-btn">Next</button>
-  </div>
-</div>
-
-  <!-- Step 9 -->
-<div class="form-step" data-step="8">
-  <div class="step-indicator">Step 9 of 10</div>
-  <h2>Your Testimony</h2>
-  <p>Explain briefly why you believe your IVA may have been mis-sold:</p>
-  <div class="form-group">
-    <textarea id="userTestimony" name="userTestimony" rows="6" maxlength="2000" required></textarea>
-    <div class="char-counter" style="margin-top: 0.25rem; font-size: 0.875rem; color: #6B7280;">
-      <span id="testimonyCount">0</span> / 2000 characters
-    </div>
-    <p id="userTestimony-error" class="error-message" style="display:none; color:#DC2626; font-size:0.9rem; margin-top:0.25rem;"></p>
-  </div>
-  <div class="form-nav">
-    <button type="button" class="prev-btn">Back</button>
-    <button type="button" class="next-btn">Next</button>
-  </div>
-</div>
-
-  <!-- Step 10 -->
-<div class="form-step" data-step="9">
-  <div class="step-indicator">Step 10 of 10</div>
-  <h2>Authority to Act</h2>
   <p>By submitting this form, you agree:</p>
   <ul class="consent-points">
     <li>Your case may be reviewed for mis-selling</li>
@@ -821,7 +684,7 @@
     <button type="submit" class="submit-btn">Submit My Claim</button>
   </div>
 </div>
-  <!-- These steps are already in your saved document and working codebase -->
+
 </form>
       </div>
     </section>

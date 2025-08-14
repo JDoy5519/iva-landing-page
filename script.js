@@ -5,25 +5,23 @@ let steps;
 document.addEventListener('DOMContentLoaded', () => {
   console.log('🔍 Initial currentStep:', currentStep);
   steps = document.querySelectorAll('.form-step');
+  const totalSteps = steps.length;
+  document.getElementById('progress-label').textContent = `Step 1 of ${totalSteps}`;
+  document.getElementById('progress-bar').style.width = `${100 / totalSteps}%`;
   console.log('🧩 Steps found:', steps.length, steps);
   const nextBtns = document.querySelectorAll('.next-btn');
   const prevBtns = document.querySelectorAll('.prev-btn');
   const providerSelect = document.getElementById('iva-provider');
   const otherProviderInput = document.getElementById('other-provider');
   const formSection = document.getElementById('form-section');
-  const testimonyInput = document.getElementById('userTestimony');
-  const testimonyCount = document.getElementById('testimonyCount');
   const form = document.getElementById('iva-check-form');
   const thankYouMessage = document.getElementById('thank-you');
   const livedAtAddressRadios = document.querySelectorAll('input[name="livedAtAddress"]');
   const previousAddressContainer = document.getElementById('previous-address');
-  const vulnerableRadios = document.querySelectorAll('input[name="feltVulnerable"]');
   const explanationBox = document.getElementById('vulnerability-explanation');
   const vulnerabilityTextarea = document.getElementById('vulnerabilityReason');
   const charCountDisplay = document.getElementById('charCount');
   const changeBankRadios = document.querySelectorAll('input[name="changeBank"]');
-  const previousBankContainer = document.getElementById('previous-bank-container');
-  const previousBankInput = document.getElementById('previousBank');
   const ivaTypeRadios = document.querySelectorAll('input[name="ivaType"]');
   const setupGroup = document.getElementById("setupQuestionGroup");
   const setupLabel = document.getElementById("setupQuestionLabel");
@@ -36,6 +34,24 @@ document.addEventListener('DOMContentLoaded', () => {
   const otherMarketingInput = document.getElementById('otherMarketing');
   const signedRadios = document.querySelectorAll('input[name="signedElectronically"]');
   const signedOnPhoneContainer = document.getElementById('signedOnPhoneContainer');
+  const residentialStatus = document.getElementById('residentialStatus');
+  const residentialOtherContainer = document.getElementById('residentialOtherContainer');
+  const otherResidentialDetails = document.getElementById('otherResidentialDetails');
+
+  residentialStatus.addEventListener('change', () => {
+  if (residentialStatus.value === 'Other') {
+    residentialOtherContainer.classList.remove('hidden');
+    otherResidentialDetails.setAttribute('required', 'required');
+  } else {
+    residentialOtherContainer.classList.add('hidden');
+    otherResidentialDetails.removeAttribute('required');
+    otherResidentialDetails.value = '';
+    const err = document.getElementById('otherResidentialDetails-error');
+    if (err) { err.textContent = ''; err.style.display = 'none'; }
+  }
+});
+
+
   
 
 signedRadios.forEach(radio => {
@@ -170,49 +186,6 @@ function showExclusionMessage() {
     window.location.href = "./not-eligible.html";
   }, 5000);
 }
-
-
-
-changeBankRadios.forEach(radio => {
-  radio.addEventListener('change', () => {
-    if (radio.value === 'Yes' && radio.checked) {
-      previousBankContainer.classList.remove('hidden');
-      previousBankInput.setAttribute('required', 'required');
-    } else if (radio.value === 'No' && radio.checked) {
-      previousBankContainer.classList.add('hidden');
-      previousBankInput.removeAttribute('required');
-      previousBankInput.value = '';
-      clearError(previousBankInput);
-    }
-  });
-});
-
-vulnerableRadios.forEach(radio => {
-  radio.addEventListener('change', () => {
-    if (radio.value === 'Yes' && radio.checked) {
-      explanationBox.classList.remove('hidden');
-    } else if (radio.value === 'No' && radio.checked) {
-      explanationBox.classList.add('hidden');
-    }
-  });
-});
-
-if (vulnerabilityTextarea && charCountDisplay) {
-  vulnerabilityTextarea.addEventListener('input', () => {
-    const length = vulnerabilityTextarea.value.length;
-    charCountDisplay.textContent = length;
-  });
-}
-
-  document.getElementById('iva-check-form').addEventListener('input', () => {
-    saveFormData();
-  });
-
-  document.getElementById('resume-check')?.addEventListener('click', () => {
-  const formSection = document.getElementById('form-section');
-  formSection.classList.remove('hidden');
-  formSection.scrollIntoView({ behavior: 'smooth' });
-});
 
 
 
@@ -366,14 +339,6 @@ if (closeThankYouBtn) {
 }
 
 
-//character counter for the testimony
-
-if (testimonyInput && testimonyCount) {
-  testimonyInput.addEventListener('input', () => {
-    testimonyCount.textContent = testimonyInput.value.length;
-  });
-}
-
 ['start-check', 'check'].forEach(id => {
   const btn = document.getElementById(id);
   if (btn) {
@@ -467,7 +432,7 @@ console.log("Button check:", document.getElementById('start-check'));
 
   // ✅ NEW: require IVA reference
   const ivaRef = document.getElementById('ivaRef');
-  
+
   if (!ivaRef.value.trim()) {
       showError(ivaRef, 'Please enter your IVA reference number');
     valid = false;
@@ -574,25 +539,33 @@ console.log("Button check:", document.getElementById('start-check'));
     }
   });
 
+  // livedAtAddress radios stay as-is
   const radioGroups = {
-    livedAtAddress: 'Please select whether you lived at this property when you entered your IVA',
-    mortgageArrears: 'Please select if you were in mortgage arrears'
+    livedAtAddress: 'Please select whether this was your address when you entered your IVA'
   };
-
   Object.entries(radioGroups).forEach(([name, message]) => {
     const selected = document.querySelector(`input[name="${name}"]:checked`);
     const error = document.getElementById(`${name}-error`);
     if (!selected) {
-      if (error) {
-        error.textContent = message;
-        error.style.display = 'block';
-      }
+      if (error) { error.textContent = message; error.style.display = 'block'; }
       valid = false;
     } else if (error) {
       error.textContent = '';
       error.style.display = 'none';
     }
   });
+
+  // ✅ Require narrative if "Other"
+  if (residentialStatus.value === 'Other') {
+    if (!otherResidentialDetails.value.trim()) {
+      const err = document.getElementById('otherResidentialDetails-error');
+      if (err) { err.textContent = 'Please describe your living situation'; err.style.display = 'block'; }
+      valid = false;
+    } else {
+      const err = document.getElementById('otherResidentialDetails-error');
+      if (err) { err.textContent = ''; err.style.display = 'none'; }
+    }
+  }
 
   return valid;
 }
@@ -633,78 +606,47 @@ console.log("Button check:", document.getElementById('start-check'));
     employmentError.style.display = 'none';
   }
 
-  // ✅ Still validating radio groups
-  const radioGroups = {
-    commissionBased: 'Please indicate if your income was commission based',
-    incomeChanged: 'Please indicate if your income changed during the IVA'
-  };
-
-  Object.entries(radioGroups).forEach(([name, message]) => {
-    const input = document.querySelector(`input[name="${name}"]`);
-    const selected = document.querySelector(`input[name="${name}"]:checked`);
-    const error = document.getElementById(`${name}-error`);
-    if (!selected) {
-      if (error) {
-        error.textContent = message;
-        error.style.display = 'block';
-      } else if (input) {
-        showError(input, message);
-      }
-      valid = false;
-    } else if (error) {
-      error.textContent = '';
-      error.style.display = 'none';
-    }
-  });
-
   return valid;
 }
 
 
  function validateStep6() {
-  let valid = true;
+    let valid = true;
 
-  const radioGroups = {
-    hadDependants: 'Please indicate if you had dependants',
-    feltVulnerable: 'Please indicate if you felt vulnerable'
-  };
+    // Require Yes/No
+    const hadDependantsYes = document.querySelector('input[name="hadDependants"][value="Yes"]')?.checked;
+    const hadDependantsNo = document.querySelector('input[name="hadDependants"][value="No"]')?.checked;
+    const hadDependantsError = document.getElementById('hadDependants-error');
 
-  Object.entries(radioGroups).forEach(([name, message]) => {
-    const input = document.querySelector(`input[name="${name}"]`);
-    const selected = document.querySelector(`input[name="${name}"]:checked`);
-    const error = document.getElementById(`${name}-error`);
-    if (!selected) {
-      if (error) {
-        error.textContent = message;
-        error.style.display = 'block';
-      } else if (input) {
-        showError(input, message);
-      }
-      valid = false;
-    } else if (error) {
-      error.textContent = '';
-      error.style.display = 'none';
-    }
-  });
-
-  // ✅ Only require dependant details if "Yes" selected
-  const hadDependantsYes = document.querySelector('input[name="hadDependants"][value="Yes"]')?.checked;
-  const dependantDetails = document.getElementById('dependantDetails');
-  const dependantDetailsError = document.getElementById('dependantDetails-error');
-
-  if (hadDependantsYes) {
-    if (!dependantDetails.value.trim()) {
-      dependantDetailsError.textContent = "Please provide details about your dependants";
-      dependantDetailsError.style.display = "block";
+    if (!hadDependantsYes && !hadDependantsNo) {
+      hadDependantsError.textContent = 'Please indicate if you had dependants';
+      hadDependantsError.style.display = 'block';
       valid = false;
     } else {
-      dependantDetailsError.textContent = "";
-      dependantDetailsError.style.display = "none";
+      hadDependantsError.textContent = '';
+      hadDependantsError.style.display = 'none';
     }
+
+    // Require number if "Yes"
+    const dependantDetails = document.getElementById('dependantDetails');
+    const dependantDetailsError = document.getElementById('dependantDetails-error');
+    if (hadDependantsYes) {
+      if (!dependantDetails.value.trim()) {
+        dependantDetailsError.textContent = 'Please enter the number of dependants';
+        dependantDetailsError.style.display = 'block';
+        valid = false;
+      } else {
+        dependantDetailsError.textContent = '';
+        dependantDetailsError.style.display = 'none';
+      }
+    } else {
+      dependantDetailsError.textContent = '';
+      dependantDetailsError.style.display = 'none';
+    }
+
+    return valid;
   }
 
-  return valid;
-}
 
 
 function validateStep7() {
@@ -718,19 +660,6 @@ function validateStep7() {
   } else {
     clearError(marketingSource);
   }
-
-  // Validate text field
-  const changeBankYes = document.querySelector('input[name="changeBank"][value="Yes"]');
-if (changeBankYes && changeBankYes.checked) {
-  if (!previousBank.value.trim()) {
-    showError(previousBank, 'Please enter your previous bank');
-    valid = false;
-  } else {
-    clearError(previousBank);
-  }
-} else {
-  clearError(previousBank); // Clear errors if not required
-}
 
   // Validate radio groups
   const radioGroups = {
@@ -811,23 +740,6 @@ function validateStep8() {
   return valid;
 }
 
-function validateStep9() {
-  const testimony = document.getElementById('userTestimony');
-  const error = document.getElementById('userTestimony-error');
-  let valid = true;
-
-  if (!testimony.value.trim()) {
-    error.textContent = 'Please enter your testimony before continuing';
-    error.style.display = 'block';
-    valid = false;
-  } else {
-    error.textContent = '';
-    error.style.display = 'none';
-  }
-
-  return valid;
-}
-
 function validateStep10() {
   const consentRadios = document.querySelectorAll('input[name="consentGiven"]');
   const consentError = document.getElementById('consentGiven-error');
@@ -845,39 +757,31 @@ function validateStep10() {
   }
 }
 
+// Map each new step to one or more existing validators
+const validatorsByStep = [
+  [validateStep1, validateStep2],   
+  [validateStep3],                  
+  [validateStep4, validateStep6],   
+  [validateStep5, validateStep7],   
+  [validateStep8, validateStep10]   
+];
 
-
-  const validators = [
-    validateStep1,
-    validateStep2,
-    validateStep3,
-    validateStep4,
-    validateStep5,
-    validateStep6,
-    validateStep7,
-    validateStep8,
-    validateStep9,
-    validateStep10
-  ];
-
-  const ELIGIBILITY_STEP_INDEX = 2; // replace with your actual step index for IVA/payment/debt
+// New index for the IVA eligibility gate (now Step 2)
+const ELIGIBILITY_STEP_INDEX = 1;
 
 nextBtns.forEach(btn => btn.addEventListener('click', () => {
-  if (validators[currentStep]) {
-    if (!validators[currentStep]()) {
-      return;
-    }
+  const group = validatorsByStep[currentStep] || [];
+  for (const fn of group) {
+    if (typeof fn === 'function' && !fn()) return;
   }
-
   if (currentStep === ELIGIBILITY_STEP_INDEX && isClientExcluded()) {
     showExclusionMessage();
     return;
   }
-
-  console.log('Current step before advancing:', currentStep, '| Trying to go to:', currentStep + 1);
   goToStep(currentStep + 1);
   document.getElementById('form-section')?.scrollIntoView({ behavior: 'smooth' });
 }));
+
 
 
   prevBtns.forEach(btn => btn.addEventListener('click', () => {
@@ -977,13 +881,13 @@ function updateSignedElectronicallyVisibility() {
   }
 }
 
-function updateChangeBankVisibility() {
-  const changeBank = document.querySelector('input[name="changeBank"]:checked')?.value;
-  const previousBankContainer = document.getElementById('previous-bank-container');
-  if (changeBank === 'Yes') {
-    previousBankContainer.classList.remove('hidden');
+function updateResidentialOtherVisibility() {
+  if (residentialStatus && residentialStatus.value === 'Other') {
+    residentialOtherContainer.classList.remove('hidden');
+    otherResidentialDetails.setAttribute('required', 'required');
   } else {
-    previousBankContainer.classList.add('hidden');
+    residentialOtherContainer.classList.add('hidden');
+    otherResidentialDetails.removeAttribute('required');
   }
 }
 
@@ -996,7 +900,7 @@ function reapplyAllConditionalVisibility() {
   updateVulnerabilityVisibility();
   updateMarketingSourceVisibility();
   updateSignedElectronicallyVisibility();
-  updateChangeBankVisibility();
+  updateResidentialOtherVisibility();
 }
 
 loadFormData();
