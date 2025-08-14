@@ -3,9 +3,7 @@ console.log('🔍 Initial currentStep:', currentStep);
 let steps;
 
 document.addEventListener('DOMContentLoaded', () => {
-  let currentStep = 0;
   console.log('🔍 Initial currentStep:', currentStep);
-  let steps;
   steps = document.querySelectorAll('.form-step');
   console.log('🧩 Steps found:', steps.length, steps);
   const nextBtns = document.querySelectorAll('.next-btn');
@@ -38,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const otherMarketingInput = document.getElementById('otherMarketing');
   const signedRadios = document.querySelectorAll('input[name="signedElectronically"]');
   const signedOnPhoneContainer = document.getElementById('signedOnPhoneContainer');
-  loadFormData();
+  
 
 signedRadios.forEach(radio => {
   radio.addEventListener('change', () => {
@@ -330,10 +328,16 @@ form.addEventListener('submit', async function (e) {
       // Reset form step view
       document.querySelectorAll('.form-step').forEach(step => step.classList.remove('active'));
       document.querySelector('[data-step="0"]').classList.add('active');
+      currentStep = 0; // <-- keep JS state in sync
 
       // Reset progress bar and label
       document.getElementById('progress-label').textContent = 'Step 1 of 10';
       document.getElementById('progress-bar').style.width = '10%';
+
+      // Make sure the form is visible and any overlays aren’t blocking
+      document.getElementById('form-section')?.classList.remove('hidden');
+      document.getElementById('exclusion-modal')?.style && (document.getElementById('exclusion-modal').style.display = 'none');
+      document.querySelectorAll('body > div[style*="position: fixed"][style*="z-index: 9998"]').forEach(el => el.remove());
 
       // Show thank-you modal
       const thankYouModal = document.getElementById('thank-you');
@@ -441,26 +445,37 @@ console.log("Button check:", document.getElementById('start-check'));
 
   // Validate Step 2: IVA Provider
   function validateStep2() {
-    let valid = true;
+      let valid = true;
 
-    if (!providerSelect.value) {
-      showError(providerSelect, 'Please select your IVA provider');
+  if (!providerSelect.value) {
+    showError(providerSelect, 'Please select your IVA provider');
+    valid = false;
+  } else {
+    clearError(providerSelect);
+  }
+
+  if (providerSelect.value === 'Other') {
+    if (!otherProviderInput.value.trim()) {
+      showError(otherProviderInput, 'Please enter your provider name');
       valid = false;
-    } else {
-      clearError(providerSelect);
-    }
-
-    if (providerSelect.value === 'Other') {
-      if (!otherProviderInput.value.trim()) {
-        showError(otherProviderInput, 'Please enter your provider name');
-        valid = false;
-      } else {
-        clearError(otherProviderInput);
-      }
     } else {
       clearError(otherProviderInput);
     }
-    return valid;
+  } else {
+    clearError(otherProviderInput);
+  }
+
+  // ✅ NEW: require IVA reference
+  const ivaRef = document.getElementById('ivaRef');
+  
+  if (!ivaRef.value.trim()) {
+      showError(ivaRef, 'Please enter your IVA reference number');
+    valid = false;
+    } else {
+      clearError(ivaRef);
+    }
+
+   return valid;
   }
 
   // Utility to check if a radio group has a checked input
@@ -890,7 +905,7 @@ nextBtns.forEach(btn => btn.addEventListener('click', () => {
 // Visibility re-check functions for conditional fields on page load
 
 function updateIvaProviderVisibility() {
-  const ivaProvider = document.getElementById('ivaProvider');
+  const ivaProvider = document.getElementById('iva-provider');
   const otherProviderContainer = document.getElementById('other-provider-container');
   if (ivaProvider && ivaProvider.value === 'Other') {
     otherProviderContainer.classList.remove('hidden');
@@ -984,9 +999,44 @@ function reapplyAllConditionalVisibility() {
   updateChangeBankVisibility();
 }
 
+loadFormData();
+
 
 });
 
+document.getElementById('dev-reset')?.addEventListener('click', () => {
+  // storage + form
+  localStorage.removeItem('ivaFormState');
+  sessionStorage.clear();
+  const form = document.getElementById('iva-check-form');
+  form.reset();
+
+  // conditional UI
+  if (typeof reapplyAllConditionalVisibility === 'function') {
+    reapplyAllConditionalVisibility();
+  }
+
+  // reveal form, hide any overlays
+  const formSection = document.getElementById('form-section');
+  formSection?.classList.remove('hidden');
+  document.getElementById('thank-you')?.classList.add('hidden');
+  const excl = document.getElementById('exclusion-modal');
+  if (excl && excl.style) excl.style.display = 'none';
+  document.querySelectorAll('body > div[style*="position: fixed"][style*="z-index: 9998"]').forEach(el => el.remove());
+
+  // reset step UI + state
+  document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+  document.querySelector('[data-step="0"]')?.classList.add('active');
+  currentStep = 0;                           // ← critical
+  const total = document.querySelectorAll('.form-step').length || 10;
+  document.getElementById('progress-label').textContent = `Step 1 of ${total}`;
+  document.getElementById('progress-bar').style.width = `${100 / total}%`;
+
+  // ensure listeners run against live state
+  if (typeof goToStep === 'function') goToStep(0);
+
+  alert('Form reset. You can edit from Step 1.');
+});
 
 
 lucide.createIcons();
